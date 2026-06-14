@@ -116,10 +116,10 @@ function renderTablaResumen(alquileres) {
         }[alquiler.estado] || 'alquilado';
 
         const estadoEmoji = {
-            'Alquilado': '⏳',
-            'Devuelto': '✅',
-            'Cancelado': '❌'
-        }[alquiler.estado] || '❓';
+            'Alquilado': '',
+            'Devuelto': '',
+            'Cancelado': ''
+        }[alquiler.estado] || '';
 
         return `
             <tr>

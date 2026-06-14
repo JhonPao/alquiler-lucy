@@ -87,10 +87,10 @@ function renderHistorial(lista) {
         }[alquiler.estado] || 'alquilado';
 
         const estadoEmoji = {
-            'Alquilado': '⏳',
-            'Devuelto': '✅',
-            'Cancelado': '❌'
-        }[alquiler.estado] || '❓';
+            'Alquilado': '',
+            'Devuelto': '',
+            'Cancelado': ''
+        }[alquiler.estado] || '';
 
         // Botones de acción según estado
         let acciones = '';
@@ -98,11 +98,11 @@ function renderHistorial(lista) {
             acciones = `
                 <button class="btn btn-secondary btn-sm btn-devolver" data-id="${alquiler.id}" title="Marcar como devuelto"
                         style="border-color: rgba(39,174,96,0.3); color: #27AE60; font-size: 0.75rem;">
-                    ✅ Devolver
+                    Devolver
                 </button>
                 <button class="btn btn-secondary btn-sm btn-cancelar-alquiler" data-id="${alquiler.id}" title="Cancelar alquiler"
                         style="border-color: rgba(239,68,68,0.2); font-size: 0.75rem;">
-                    ❌
+                    ×
                 </button>
             `;
         } else {
@@ -161,7 +161,7 @@ async function marcarDevuelto(alquilerId) {
     const nombreCliente = `${cliente.nombres || ''} ${cliente.apellidos || ''}`.trim();
 
     showConfirmDialog(
-        '✅',
+        '',
         '¿Marcar como devuelto?',
         `Se registrará la devolución de "${prenda?.nombre}" por ${nombreCliente} y se retornará el stock al inventario.`,
         async () => {
@@ -182,12 +182,12 @@ async function marcarDevuelto(alquilerId) {
                     });
                 }
 
-                showToast('✅ Alquiler marcado como devuelto. Stock actualizado.');
+                showToast('Alquiler marcado como devuelto. Stock actualizado.');
                 await cargarHistorial();
 
             } catch (error) {
                 console.error('Error al marcar devuelto:', error);
-                showToast('❌ Error al actualizar. Revise la consola.');
+                showToast('Error al actualizar. Revise la consola.');
             }
         }
     );
@@ -203,7 +203,7 @@ async function cancelarAlquiler(alquilerId) {
     const prenda = alquiler.detalle_prendas?.[0];
 
     showConfirmDialog(
-        '❌',
+        '',
         '¿Cancelar este alquiler?',
         'Se cancelará el contrato y se retornará el stock al inventario. Esta acción no se puede deshacer.',
         async () => {
@@ -223,12 +223,12 @@ async function cancelarAlquiler(alquilerId) {
                     });
                 }
 
-                showToast('❌ Alquiler cancelado. Stock retornado.');
+                showToast('Alquiler cancelado. Stock retornado.');
                 await cargarHistorial();
 
             } catch (error) {
                 console.error('Error al cancelar alquiler:', error);
-                showToast('❌ Error al cancelar. Revise la consola.');
+                showToast('Error al cancelar. Revise la consola.');
             }
         }
     );

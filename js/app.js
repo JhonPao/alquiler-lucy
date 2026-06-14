@@ -194,7 +194,7 @@ function crearCard(vestimenta, index) {
                     background:linear-gradient(135deg, ${colors[0]}22, ${colors[1]}22);
                     font-size:4rem;"><svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="color:var(--text-muted);opacity:0.5;"><path d="m6 2 2 4h8l2-4"/><path d="M6 6v14a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V6"/></svg></div>`
             }
-            <span class="card-badge">${getRegionEmoji(vestimenta.region)} ${vestimenta.region}</span>
+            <span class="card-badge">${getRegionIcon(vestimenta.region)} ${vestimenta.region}</span>
             <span class="card-stock-badge ${hayStock ? 'in-stock' : 'out-of-stock'}">
                 ${hayStock ? `${totalStock} disponibles` : 'Agotado'}
             </span>

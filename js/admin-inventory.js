@@ -93,7 +93,7 @@ function renderTablaInventario(lista) {
                     }
                 </td>
                 <td style="color:var(--text-primary);font-weight:500;">${v.nombre}</td>
-                <td>${getRegionEmoji(v.region)} ${v.region}</td>
+                <td>${getRegionIcon(v.region)} ${v.region}</td>
                 <td>${v.danza}</td>
                 <td><div style="display:flex;gap:4px;flex-wrap:wrap;">${tallasStr}</div></td>
                 <td>
@@ -330,8 +330,13 @@ function calcularStockTotal(tallas) {
     return Object.values(tallas).reduce((sum, c) => sum + c, 0);
 }
 
-function getRegionEmoji(region) {
-    return { 'Costa': '🌊', 'Sierra': '⛰️', 'Selva': '🌿' }[region] || '📍';
+function getRegionIcon(region) {
+    const icons = {
+        'Costa': '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;"><path d="M2 6c.6.5 1.2 1 2.5 1C7 7 7 5 9.5 5c2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/><path d="M2 12c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/><path d="M2 18c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/></svg>',
+        'Sierra': '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;"><path d="m8 3 4 8 5-5 5 15H2L8 3z"/></svg>',
+        'Selva': '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;"><path d="M10 10v.2A3 3 0 0 1 8.9 16H5a3 3 0 0 1-1-5.8V10a3 3 0 0 1 6 0Z"/><path d="M7 16v6"/><path d="M13 19v3"/><path d="M16 14v.2A3 3 0 0 1 14.9 20H11a3 3 0 0 1-1-5.8V14a3 3 0 0 1 6 0Z"/></svg>'
+    };
+    return icons[region] || '';
 }
 
 function showToast(message, duration = 4000) {

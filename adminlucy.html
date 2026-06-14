@@ -262,86 +262,85 @@
                     <h1><i data-lucide="file-pen" style="width:24px;height:24px;"></i> Registrar Alquiler</h1>
                 </div>
 
-                <div class="admin-form">
-                    <h3 class="form-title">Datos del contrato de alquiler</h3>
-                    <form id="formAlquiler">
-                        <!-- Selección de prenda -->
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="selectPrenda">Vestimenta <span class="required">*</span></label>
-                                <select class="form-select" id="selectPrenda" required>
-                                    <option value="">Seleccionar prenda...</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="selectTalla">Talla <span class="required">*</span></label>
-                                <select class="form-select" id="selectTalla" required disabled>
-                                    <option value="">Seleccione prenda primero</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="cantidad">Cantidad <span class="required">*</span></label>
-                                <input type="number" class="form-input" id="cantidad"
-                                       min="1" value="1" required>
-                            </div>
+                <!-- Vista 1: Grid de vestimentas disponibles -->
+                <div id="rentCatalogView">
+                    <div class="search-bar-container" style="max-width: 500px; margin: 0 0 var(--space-xl) 0;">
+                        <span class="search-icon"><i data-lucide="search" style="width:16px;height:16px;"></i></span>
+                        <input type="text" class="search-bar" id="searchRentCatalog"
+                               placeholder="Buscar vestimenta para alquilar..." style="padding: 10px 14px 10px 40px; font-size: 0.85rem;">
+                    </div>
+                    <div class="rent-catalog-grid" id="rentCatalogGrid">
+                        <div style="text-align:center; color: var(--text-muted); padding: 40px; grid-column: 1 / -1;">
+                            Cargando vestimentas disponibles...
                         </div>
+                    </div>
+                </div>
 
-                        <!-- Datos del cliente -->
-                        <h3 class="form-title" style="margin-top: var(--space-lg);">Datos del cliente</h3>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="clienteNombres">Nombres <span class="required">*</span></label>
-                                <input type="text" class="form-input" id="clienteNombres"
-                                       placeholder="Ej: Juan Carlos" required>
+                <!-- Vista 2: Formulario de contrato (oculto) -->
+                <div id="rentFormView" style="display: none;">
+                    <button class="btn btn-secondary" id="btnVolverCatalogo" style="margin-bottom: var(--space-xl);">
+                        <i data-lucide="arrow-left" style="width:16px;height:16px;"></i> Volver al cat&#225;logo
+                    </button>
+                    <div class="rent-selected-item" id="rentSelectedItem"></div>
+                    <div class="admin-form" style="margin-top: var(--space-lg);">
+                        <h3 class="form-title">Datos del contrato de alquiler</h3>
+                        <form id="formAlquiler">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="selectTalla">Talla <span class="required">*</span></label>
+                                    <select class="form-select" id="selectTalla" required>
+                                        <option value="">Seleccionar talla...</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="cantidad">Cantidad <span class="required">*</span></label>
+                                    <input type="number" class="form-input" id="cantidad" min="1" value="1" required>
+                                </div>
+                            </div>
+                            <h3 class="form-title" style="margin-top: var(--space-lg);">Datos del cliente</h3>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="clienteNombres">Nombres <span class="required">*</span></label>
+                                    <input type="text" class="form-input" id="clienteNombres" placeholder="Ej: Juan Carlos" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="clienteApellidos">Apellidos <span class="required">*</span></label>
+                                    <input type="text" class="form-input" id="clienteApellidos" placeholder="Ej: P&#233;rez G&#243;mez" required>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="clienteDni">DNI <span class="required">*</span></label>
+                                    <input type="text" class="form-input" id="clienteDni" placeholder="12345678" maxlength="8" pattern="[0-9]{8}" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="clienteTelefono">Tel&#233;fono <span class="required">*</span></label>
+                                    <input type="tel" class="form-input" id="clienteTelefono" placeholder="987654321" required>
+                                </div>
                             </div>
                             <div class="form-group">
-                                <label for="clienteApellidos">Apellidos <span class="required">*</span></label>
-                                <input type="text" class="form-input" id="clienteApellidos"
-                                       placeholder="Ej: Pérez Gómez" required>
+                                <label for="clienteDireccion">Direcci&#243;n</label>
+                                <input type="text" class="form-input" id="clienteDireccion" placeholder="Av. Las Flores 123, Lima">
                             </div>
-                        </div>
-
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="clienteDni">DNI <span class="required">*</span></label>
-                                <input type="text" class="form-input" id="clienteDni"
-                                       placeholder="12345678" maxlength="8" pattern="[0-9]{8}" required>
+                            <h3 class="form-title" style="margin-top: var(--space-lg);">Control de fechas</h3>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="fechaInicio">Fecha de inicio <span class="required">*</span></label>
+                                    <input type="date" class="form-input" id="fechaInicio" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="fechaDevolucion">Fecha de devoluci&#243;n <span class="required">*</span></label>
+                                    <input type="date" class="form-input" id="fechaDevolucion" required>
+                                </div>
                             </div>
-                            <div class="form-group">
-                                <label for="clienteTelefono">Teléfono <span class="required">*</span></label>
-                                <input type="tel" class="form-input" id="clienteTelefono"
-                                       placeholder="987654321" required>
+                            <div class="form-actions">
+                                <button type="button" class="btn btn-secondary" id="btnCancelarAlquiler">Cancelar</button>
+                                <button type="submit" class="btn btn-primary" id="btnRegistrarAlquiler">
+                                    <i data-lucide="check-circle" style="width:16px;height:16px;"></i> Registrar Alquiler
+                                </button>
                             </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="clienteDireccion">Dirección</label>
-                            <input type="text" class="form-input" id="clienteDireccion"
-                                   placeholder="Av. Las Flores 123, Lima">
-                        </div>
-
-                        <!-- Fechas -->
-                        <h3 class="form-title" style="margin-top: var(--space-lg);">Control de fechas</h3>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="fechaInicio">Fecha de inicio <span class="required">*</span></label>
-                                <input type="date" class="form-input" id="fechaInicio" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="fechaDevolucion">Fecha de devolución <span class="required">*</span></label>
-                                <input type="date" class="form-input" id="fechaDevolucion" required>
-                            </div>
-                        </div>
-
-                        <div class="form-actions">
-                            <button type="reset" class="btn btn-secondary">
-                                <i data-lucide="trash-2" style="width:16px;height:16px;"></i> Limpiar
-                            </button>
-                            <button type="submit" class="btn btn-primary" id="btnRegistrarAlquiler">
-                                <i data-lucide="check-circle" style="width:16px;height:16px;"></i> Registrar Alquiler
-                            </button>
-                        </div>
-                    </form>
+                        </form>
+                    </div>
                 </div>
             </section>
 

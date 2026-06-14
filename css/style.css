@@ -332,6 +332,31 @@ body::before {
     }
 }
 
+/* ── ICONOS SVG INLINE ── */
+.btn svg,
+.filter-tab svg,
+.sidebar-link svg,
+.card-badge svg,
+.admin-topbar h1 svg,
+.stat-icon svg,
+.navbar-brand svg {
+    vertical-align: middle;
+    flex-shrink: 0;
+}
+
+.btn i[data-lucide],
+.filter-tab i[data-lucide],
+.sidebar-link i[data-lucide] {
+    display: inline-flex;
+    align-items: center;
+}
+
+.admin-topbar h1 {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+}
+
 /* ── BOTONES ── */
 .btn {
     display: inline-flex;
