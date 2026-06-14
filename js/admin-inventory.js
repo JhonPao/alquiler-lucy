@@ -1,17 +1,14 @@
 // =====================================================
 // admin-inventory.js — CRUD de Vestimentas
 // Crear, Leer, Actualizar y Eliminar prendas.
-// Sube imágenes a Firebase Storage.
+// Sube imágenes como Base64 comprimido en Firestore.
 // =====================================================
 
-import { db, storage } from './firebase-config.js';
+import { db } from './firebase-config.js';
 import {
     collection, getDocs, addDoc, doc, updateDoc, deleteDoc,
     query, orderBy, serverTimestamp
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-import {
-    ref, uploadBytes, getDownloadURL, deleteObject
-} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
 
 // ── Referencias del DOM ──
 const btnNueva = document.getElementById('btnNuevaVestimenta');
@@ -185,7 +182,7 @@ function initFormEvents() {
             // Subir imagen si hay una nueva
             let imagenUrl = '';
             if (imagenSeleccionada) {
-                imagenUrl = await subirImagen(imagenSeleccionada);
+                imagenUrl = await comprimirYCodificar(imagenSeleccionada);
             } else if (editandoId) {
                 // Mantener la imagen anterior
                 const vestimentaActual = vestimentasList.find(v => v.id === editandoId);
@@ -279,18 +276,45 @@ function confirmarEliminar(id, nombre) {
     );
 }
 
-// ══════════════════════════════════════════════════════
-// SUBIR IMAGEN A STORAGE
-// ══════════════════════════════════════════════════════
-async function subirImagen(file) {
-    const timestamp = Date.now();
-    const ext = file.name.split('.').pop();
-    const fileName = `vestimentas/prenda_${timestamp}.${ext}`;
-    const storageRef = ref(storage, fileName);
+/**
+ * Comprime y codifica una imagen a Base64.
+ * Redimensiona a máx. 800px de ancho para mantener
+ * el tamaño del documento Firestore manejable.
+ */
+async function comprimirYCodificar(file) {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            const img = new Image();
+            img.onload = () => {
+                const canvas = document.createElement('canvas');
+                const MAX_WIDTH = 800;
+                const MAX_HEIGHT = 800;
+                let width = img.width;
+                let height = img.height;
 
-    const snapshot = await uploadBytes(storageRef, file);
-    const downloadURL = await getDownloadURL(snapshot.ref);
-    return downloadURL;
+                // Redimensionar manteniendo proporción
+                if (width > MAX_WIDTH || height > MAX_HEIGHT) {
+                    const ratio = Math.min(MAX_WIDTH / width, MAX_HEIGHT / height);
+                    width = Math.round(width * ratio);
+                    height = Math.round(height * ratio);
+                }
+
+                canvas.width = width;
+                canvas.height = height;
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(img, 0, 0, width, height);
+
+                // Comprimir a JPEG con calidad 0.7
+                const base64 = canvas.toDataURL('image/jpeg', 0.7);
+                resolve(base64);
+            };
+            img.onerror = reject;
+            img.src = e.target.result;
+        };
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+    });
 }
 
 // ══════════════════════════════════════════════════════
