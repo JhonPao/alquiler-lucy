@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Panel Admin — Vestimentas Lucy</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/admin.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='28' font-size='28'>⚙️</text></svg>">
+</head>
+<body>
+
+    <!-- ══════════════════ LOADING SCREEN ══════════════════ -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loading-spinner"></div>
+        <p>Verificando acceso...</p>
+    </div>
+
+    <!-- ══════════════════ CONTENIDO PROTEGIDO ══════════════════ -->
+    <div class="admin-layout" id="adminContent" style="display: none;">
+
+        <!-- ── SIDEBAR ── -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <a href="index.html" class="sidebar-brand" title="Ir al catálogo público">
+                    <div class="sidebar-brand-icon">👗</div>
+                    <span class="sidebar-brand-text">Lucy Admin</span>
+                </a>
+            </div>
+
+            <nav class="sidebar-nav">
+                <div class="sidebar-section-label">Principal</div>
+                <button class="sidebar-link active" data-panel="dashboard" id="navDashboard">
+                    <span class="link-icon">📊</span> Dashboard
+                </button>
+
+                <div class="sidebar-section-label">Gestión</div>
+                <button class="sidebar-link" data-panel="inventario" id="navInventario">
+                    <span class="link-icon">👗</span> Inventario
+                </button>
+                <button class="sidebar-link" data-panel="alquilar" id="navAlquilar">
+                    <span class="link-icon">📝</span> Alquilar
+                </button>
+                <button class="sidebar-link" data-panel="historial" id="navHistorial">
+                    <span class="link-icon">📋</span> Historial
+                </button>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="sidebar-user">
+                    <div class="user-avatar">👤</div>
+                    <div class="user-info">
+                        <div class="user-name" id="userName">Administrador</div>
+                        <div class="user-email" id="userEmail">admin@lucy.com</div>
+                    </div>
+                </div>
+                <button class="btn-logout" onclick="cerrarSesion()">
+                    🚪 Cerrar sesión
+                </button>
+            </div>
+        </aside>
+
+        <!-- ── MAIN CONTENT ── -->
+        <main class="admin-main">
+
+            <!-- ═══════════ PANEL: DASHBOARD ═══════════ -->
+            <section class="admin-panel active" id="panelDashboard">
+                <div class="admin-topbar">
+                    <h1>📊 Dashboard</h1>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card purple">
+                        <div class="stat-icon">👗</div>
+                        <div class="stat-value" id="statTotalVestimentas">0</div>
+                        <div class="stat-label">Vestimentas registradas</div>
+                    </div>
+                    <div class="stat-card pink">
+                        <div class="stat-icon">📝</div>
+                        <div class="stat-value" id="statAlquileresMes">0</div>
+                        <div class="stat-label">Alquileres este mes</div>
+                    </div>
+                    <div class="stat-card amber">
+                        <div class="stat-icon">⏳</div>
+                        <div class="stat-value" id="statPendientes">0</div>
+                        <div class="stat-label">Pendientes de devolución</div>
+                    </div>
+                    <div class="stat-card green">
+                        <div class="stat-icon">✅</div>
+                        <div class="stat-value" id="statDevueltos">0</div>
+                        <div class="stat-label">Devueltos este mes</div>
+                    </div>
+                </div>
+
+                <!-- Tabla resumen de últimos alquileres -->
+                <div class="table-container">
+                    <div class="table-header">
+                        <h3>Últimos alquileres</h3>
+                    </div>
+                    <div class="table-wrapper">
+                        <table class="admin-table">
+                            <thead>
+                                <tr>
+                                    <th>Cliente</th>
+                                    <th>Vestimenta</th>
+                                    <th>Talla</th>
+                                    <th>Fecha inicio</th>
+                                    <th>Estado</th>
+                                </tr>
+                            </thead>
+                            <tbody id="dashboardTableBody">
+                                <tr>
+                                    <td colspan="5" style="text-align:center; color: var(--text-muted); padding: 40px;">
+                                        Cargando datos...
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ═══════════ PANEL: INVENTARIO ═══════════ -->
+            <section class="admin-panel" id="panelInventario">
+                <div class="admin-topbar">
+                    <h1>👗 Inventario</h1>
+                    <div class="topbar-actions">
+                        <button class="btn btn-primary" id="btnNuevaVestimenta">
+                            ➕ Nueva vestimenta
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Formulario de Vestimenta (oculto por defecto) -->
+                <div class="admin-form" id="formVestimentaContainer" style="display: none;">
+                    <h3 class="form-title" id="formVestimentaTitle">Nueva Vestimenta</h3>
+                    <form id="formVestimenta">
+                        <input type="hidden" id="vestimentaId">
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="vestimentaNombre">Nombre de la prenda <span class="required">*</span></label>
+                                <input type="text" class="form-input" id="vestimentaNombre"
+                                       placeholder="Ej: Traje de Marinera Norteña" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="vestimentaDanza">Danza <span class="required">*</span></label>
+                                <input type="text" class="form-input" id="vestimentaDanza"
+                                       placeholder="Ej: Marinera Norteña" required>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="vestimentaRegion">Región <span class="required">*</span></label>
+                                <select class="form-select" id="vestimentaRegion" required>
+                                    <option value="">Seleccionar región...</option>
+                                    <option value="Costa">🌊 Costa</option>
+                                    <option value="Sierra">⛰️ Sierra</option>
+                                    <option value="Selva">🌿 Selva</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Tallas y stock -->
+                        <div class="form-group">
+                            <label>Tallas y stock disponible</label>
+                            <div class="tallas-editor" id="tallasEditor">
+                                <div class="talla-input-group">
+                                    <label for="tallaXS">XS</label>
+                                    <input type="number" id="tallaXS" min="0" value="0" placeholder="0">
+                                </div>
+                                <div class="talla-input-group">
+                                    <label for="tallaS">S</label>
+                                    <input type="number" id="tallaS" min="0" value="0" placeholder="0">
+                                </div>
+                                <div class="talla-input-group">
+                                    <label for="tallaM">M</label>
+                                    <input type="number" id="tallaM" min="0" value="0" placeholder="0">
+                                </div>
+                                <div class="talla-input-group">
+                                    <label for="tallaL">L</label>
+                                    <input type="number" id="tallaL" min="0" value="0" placeholder="0">
+                                </div>
+                                <div class="talla-input-group">
+                                    <label for="tallaXL">XL</label>
+                                    <input type="number" id="tallaXL" min="0" value="0" placeholder="0">
+                                </div>
+                                <div class="talla-input-group">
+                                    <label for="tallaXXL">XXL</label>
+                                    <input type="number" id="tallaXXL" min="0" value="0" placeholder="0">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Upload de imagen -->
+                        <div class="form-group">
+                            <label>Foto de la prenda</label>
+                            <div class="image-upload-area" id="imageUploadArea">
+                                <div id="uploadPlaceholder">
+                                    <div class="upload-icon">📷</div>
+                                    <p>Haga clic o arrastre una imagen aquí</p>
+                                    <p style="font-size: 0.75rem; margin-top: 4px; color: var(--text-muted);">
+                                        JPG, PNG o WebP — máx. 5MB
+                                    </p>
+                                </div>
+                                <img src="" alt="Preview" class="preview-img" id="imagePreview" style="display: none;">
+                                <input type="file" id="vestimentaImagen" accept="image/jpeg,image/png,image/webp">
+                            </div>
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="button" class="btn btn-secondary" id="btnCancelarVestimenta">
+                                Cancelar
+                            </button>
+                            <button type="submit" class="btn btn-primary" id="btnGuardarVestimenta">
+                                💾 Guardar vestimenta
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Tabla de Inventario -->
+                <div class="table-container" id="tablaInventarioContainer" style="margin-top: var(--space-lg);">
+                    <div class="table-header">
+                        <h3>Listado de vestimentas</h3>
+                        <div class="search-bar-container" style="max-width: 300px; margin: 0;">
+                            <span class="search-icon">🔍</span>
+                            <input type="text" class="search-bar" id="searchInventario"
+                                   placeholder="Buscar vestimenta..." style="padding: 10px 14px 10px 40px; font-size: 0.85rem;">
+                        </div>
+                    </div>
+                    <div class="table-wrapper">
+                        <table class="admin-table">
+                            <thead>
+                                <tr>
+                                    <th>Imagen</th>
+                                    <th>Nombre</th>
+                                    <th>Región</th>
+                                    <th>Danza</th>
+                                    <th>Tallas / Stock</th>
+                                    <th>Estado</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="inventarioTableBody">
+                                <tr>
+                                    <td colspan="7" style="text-align:center; color: var(--text-muted); padding: 40px;">
+                                        Cargando inventario...
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ═══════════ PANEL: ALQUILAR ═══════════ -->
+            <section class="admin-panel" id="panelAlquilar">
+                <div class="admin-topbar">
+                    <h1>📝 Registrar Alquiler</h1>
+                </div>
+
+                <div class="admin-form">
+                    <h3 class="form-title">Datos del contrato de alquiler</h3>
+                    <form id="formAlquiler">
+                        <!-- Selección de prenda -->
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="selectPrenda">Vestimenta <span class="required">*</span></label>
+                                <select class="form-select" id="selectPrenda" required>
+                                    <option value="">Seleccionar prenda...</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="selectTalla">Talla <span class="required">*</span></label>
+                                <select class="form-select" id="selectTalla" required disabled>
+                                    <option value="">Seleccione prenda primero</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="cantidad">Cantidad <span class="required">*</span></label>
+                                <input type="number" class="form-input" id="cantidad"
+                                       min="1" value="1" required>
+                            </div>
+                        </div>
+
+                        <!-- Datos del cliente -->
+                        <h3 class="form-title" style="margin-top: var(--space-lg);">Datos del cliente</h3>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="clienteNombres">Nombres <span class="required">*</span></label>
+                                <input type="text" class="form-input" id="clienteNombres"
+                                       placeholder="Ej: Juan Carlos" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="clienteApellidos">Apellidos <span class="required">*</span></label>
+                                <input type="text" class="form-input" id="clienteApellidos"
+                                       placeholder="Ej: Pérez Gómez" required>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="clienteDni">DNI <span class="required">*</span></label>
+                                <input type="text" class="form-input" id="clienteDni"
+                                       placeholder="12345678" maxlength="8" pattern="[0-9]{8}" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="clienteTelefono">Teléfono <span class="required">*</span></label>
+                                <input type="tel" class="form-input" id="clienteTelefono"
+                                       placeholder="987654321" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="clienteDireccion">Dirección</label>
+                            <input type="text" class="form-input" id="clienteDireccion"
+                                   placeholder="Av. Las Flores 123, Lima">
+                        </div>
+
+                        <!-- Fechas -->
+                        <h3 class="form-title" style="margin-top: var(--space-lg);">Control de fechas</h3>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="fechaInicio">Fecha de inicio <span class="required">*</span></label>
+                                <input type="date" class="form-input" id="fechaInicio" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="fechaDevolucion">Fecha de devolución <span class="required">*</span></label>
+                                <input type="date" class="form-input" id="fechaDevolucion" required>
+                            </div>
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="reset" class="btn btn-secondary">
+                                🗑️ Limpiar
+                            </button>
+                            <button type="submit" class="btn btn-primary" id="btnRegistrarAlquiler">
+                                ✅ Registrar Alquiler
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </section>
+
+            <!-- ═══════════ PANEL: HISTORIAL ═══════════ -->
+            <section class="admin-panel" id="panelHistorial">
+                <div class="admin-topbar">
+                    <h1>📋 Historial de Alquileres</h1>
+                    <div class="topbar-actions">
+                        <select class="form-select" id="filtroEstadoHistorial" style="width: auto; padding: 8px 36px 8px 14px; font-size: 0.85rem;">
+                            <option value="all">Todos</option>
+                            <option value="Alquilado">⏳ Alquilados</option>
+                            <option value="Devuelto">✅ Devueltos</option>
+                            <option value="Cancelado">❌ Cancelados</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="table-container">
+                    <div class="table-header">
+                        <h3>Contratos registrados</h3>
+                    </div>
+                    <div class="table-wrapper">
+                        <table class="admin-table">
+                            <thead>
+                                <tr>
+                                    <th>Cliente</th>
+                                    <th>DNI</th>
+                                    <th>Vestimenta</th>
+                                    <th>Talla</th>
+                                    <th>Cant.</th>
+                                    <th>Inicio</th>
+                                    <th>Devolución</th>
+                                    <th>Estado</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="historialTableBody">
+                                <tr>
+                                    <td colspan="9" style="text-align:center; color: var(--text-muted); padding: 40px;">
+                                        Cargando historial...
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- ══════════════════ CONFIRM DIALOG ══════════════════ -->
+    <div class="confirm-overlay" id="confirmOverlay">
+        <div class="confirm-dialog">
+            <div class="confirm-icon" id="confirmIcon">⚠️</div>
+            <h3 id="confirmTitle">¿Está seguro?</h3>
+            <p id="confirmMessage">Esta acción no se puede deshacer.</p>
+            <div class="confirm-actions">
+                <button class="btn btn-secondary" id="confirmCancel">Cancelar</button>
+                <button class="btn btn-primary" id="confirmAccept">Confirmar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- Mobile sidebar toggle -->
+    <button class="sidebar-mobile-toggle" id="sidebarToggle">☰</button>
+
+    <!-- Scripts -->
+    <script type="module" src="js/auth.js"></script>
+    <script type="module" src="js/admin-inventory.js"></script>
+    <script type="module" src="js/admin-rent.js"></script>
+    <script type="module" src="js/admin-history.js"></script>
+    <script type="module" src="js/admin-dashboard.js"></script>
+
+    <!-- Script de navegación del sidebar (inline para simplicidad) -->
+    <script>
+        // ── Navegación entre paneles ──
+        document.querySelectorAll('.sidebar-link[data-panel]').forEach(link => {
+            link.addEventListener('click', () => {
+                const panelId = link.dataset.panel;
+
+                // Activar link
+                document.querySelectorAll('.sidebar-link').forEach(l => l.classList.remove('active'));
+                link.classList.add('active');
+
+                // Mostrar panel
+                document.querySelectorAll('.admin-panel').forEach(p => p.classList.remove('active'));
+                const panel = document.getElementById('panel' + panelId.charAt(0).toUpperCase() + panelId.slice(1));
+                if (panel) panel.classList.add('active');
+
+                // Cerrar sidebar en mobile
+                document.getElementById('sidebar').classList.remove('open');
+            });
+        });
+
+        // ── Mobile sidebar toggle ──
+        document.getElementById('sidebarToggle').addEventListener('click', () => {
+            document.getElementById('sidebar').classList.toggle('open');
+        });
+
+        // Cerrar sidebar al hacer clic fuera en mobile
+        document.addEventListener('click', (e) => {
+            const sidebar = document.getElementById('sidebar');
+            const toggle = document.getElementById('sidebarToggle');
+            if (window.innerWidth <= 900 && sidebar.classList.contains('open')
+                && !sidebar.contains(e.target) && !toggle.contains(e.target)) {
+                sidebar.classList.remove('open');
+            }
+        });
+    </script>
+
+</body>
+</html>

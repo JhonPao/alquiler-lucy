@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Alquiler de vestimentas típicas del Perú — Costa, Sierra y Selva. Encuentra trajes de Marinera, Huayno, Diablada y más. Reserva por WhatsApp.">
+    <meta name="keywords" content="alquiler vestimentas, trajes típicos Perú, danzas peruanas, marinera, huayno, diablada">
+    <title>Vestimentas Lucy — Alquiler de Trajes Típicos del Perú</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='28' font-size='28'>👗</text></svg>">
+</head>
+<body>
+
+    <!-- ══════════════════ NAVBAR ══════════════════ -->
+    <nav class="navbar" id="navbar">
+        <div class="navbar-inner">
+            <a href="#" class="navbar-brand">
+                <div class="brand-icon">👗</div>
+                <span class="brand-text">Vestimentas Lucy</span>
+            </a>
+
+            <button class="navbar-toggle" id="navToggle" aria-label="Menú de navegación">
+                <span></span><span></span><span></span>
+            </button>
+
+            <ul class="navbar-nav" id="navMenu">
+                <li><a href="#catalogo">Catálogo</a></li>
+                <li><a href="#regiones">Regiones</a></li>
+                <li>
+                    <a href="https://wa.me/51948291212?text=Hola%2C%20vengo%20del%20catálogo%20web%20y%20deseo%20información."
+                       class="btn btn-sm btn-whatsapp" target="_blank" rel="noopener">
+                        💬 WhatsApp
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- ══════════════════ HERO ══════════════════ -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-badge">
+                <span class="badge-dot"></span>
+                Catálogo actualizado
+            </div>
+            <h1>
+                Viste la tradición,<br>
+                <span class="gradient-text">celebra tu cultura</span>
+            </h1>
+            <p>
+                Encuentra el traje perfecto para tu evento. Vestimentas típicas de la Costa, Sierra y Selva del Perú. Reserva fácil por WhatsApp.
+            </p>
+            <div class="hero-actions">
+                <a href="#catalogo" class="btn btn-primary btn-lg">
+                    🎭 Explorar catálogo
+                </a>
+                <a href="https://wa.me/51948291212?text=Hola%2C%20vengo%20del%20catálogo%20web%20y%20deseo%20información."
+                   class="btn btn-secondary btn-lg" target="_blank" rel="noopener">
+                    💬 Consultar
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ══════════════════ CATÁLOGO ══════════════════ -->
+    <main class="catalog-section" id="catalogo">
+        <div class="section-header">
+            <h2>Nuestro Catálogo</h2>
+            <p>Encuentra la vestimenta ideal para tu próxima presentación</p>
+        </div>
+
+        <!-- Buscador -->
+        <div class="search-bar-container">
+            <span class="search-icon">🔍</span>
+            <input type="text" class="search-bar" id="searchInput"
+                   placeholder="Buscar por nombre de vestimenta o danza..." autocomplete="off">
+        </div>
+
+        <!-- Filtros por Región -->
+        <div class="filter-tabs" id="filterTabs">
+            <button class="filter-tab active" data-region="all">Todas</button>
+            <button class="filter-tab" data-region="Costa">🌊 Costa</button>
+            <button class="filter-tab" data-region="Sierra">⛰️ Sierra</button>
+            <button class="filter-tab" data-region="Selva">🌿 Selva</button>
+        </div>
+
+        <!-- Grid del catálogo (se llena dinámicamente) -->
+        <div class="catalog-grid" id="catalogGrid">
+            <!-- Loading skeletons -->
+            <div class="skeleton-card">
+                <div class="skeleton skeleton-image"></div>
+                <div class="skeleton-body">
+                    <div class="skeleton skeleton-line"></div>
+                    <div class="skeleton skeleton-line"></div>
+                </div>
+            </div>
+            <div class="skeleton-card">
+                <div class="skeleton skeleton-image"></div>
+                <div class="skeleton-body">
+                    <div class="skeleton skeleton-line"></div>
+                    <div class="skeleton skeleton-line"></div>
+                </div>
+            </div>
+            <div class="skeleton-card">
+                <div class="skeleton skeleton-image"></div>
+                <div class="skeleton-body">
+                    <div class="skeleton skeleton-line"></div>
+                    <div class="skeleton skeleton-line"></div>
+                </div>
+            </div>
+            <div class="skeleton-card">
+                <div class="skeleton skeleton-image"></div>
+                <div class="skeleton-body">
+                    <div class="skeleton skeleton-line"></div>
+                    <div class="skeleton skeleton-line"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Estado vacío (oculto por defecto) -->
+        <div class="empty-state" id="emptyState" style="display: none;">
+            <div class="empty-icon">🔍</div>
+            <p>No se encontraron vestimentas que coincidan con tu búsqueda.</p>
+        </div>
+    </main>
+
+    <!-- ══════════════════ MODAL DE DETALLE ══════════════════ -->
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal" role="dialog" aria-modal="true">
+            <div class="modal-header">
+                <h3 id="modalTitle">Detalle de Vestimenta</h3>
+                <button class="modal-close" id="modalClose" aria-label="Cerrar">✕</button>
+            </div>
+            <div class="modal-body">
+                <img src="" alt="" class="modal-image" id="modalImage">
+                <h2 id="modalName"></h2>
+                <p class="modal-region" id="modalRegion"></p>
+                <p class="modal-danza" id="modalDanza"></p>
+                <p class="modal-tallas-label">Tallas disponibles:</p>
+                <div class="modal-tallas" id="modalTallas"></div>
+            </div>
+            <div class="modal-footer">
+                <a href="#" class="btn btn-whatsapp btn-lg" id="modalWhatsapp" target="_blank" rel="noopener">
+                    💬 Reservar por WhatsApp
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- ══════════════════ FOOTER ══════════════════ -->
+    <footer class="site-footer">
+        <p>© 2026 <strong>Vestimentas Lucy</strong> — Alquiler de trajes típicos del Perú</p>
+        <p style="margin-top: 4px; font-size: 0.8rem;">
+            ¿Consultas? Escríbenos al
+            <a href="https://wa.me/51948291212" target="_blank" rel="noopener">WhatsApp</a>
+        </p>
+    </footer>
+
+    <!-- Botón scroll to top -->
+    <button class="scroll-top-btn" id="scrollTopBtn" aria-label="Volver arriba">↑</button>
+
+    <!-- Toast container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- Scripts -->
+    <script type="module" src="js/app.js"></script>
+
+</body>
+</html>
