@@ -97,7 +97,7 @@ function renderHistorial(lista) {
         if (alquiler.estado === 'Alquilado') {
             acciones = `
                 <button class="btn btn-secondary btn-sm btn-devolver" data-id="${alquiler.id}" title="Marcar como devuelto"
-                        style="border-color: rgba(52,211,153,0.3); color: #34D399; font-size: 0.75rem;">
+                        style="border-color: rgba(39,174,96,0.3); color: #27AE60; font-size: 0.75rem;">
                     ✅ Devolver
                 </button>
                 <button class="btn btn-secondary btn-sm btn-cancelar-alquiler" data-id="${alquiler.id}" title="Cancelar alquiler"

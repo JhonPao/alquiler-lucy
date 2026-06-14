@@ -7,7 +7,7 @@
     <meta name="keywords" content="alquiler vestimentas, trajes típicos Perú, danzas peruanas, marinera, huayno, diablada">
     <title>Vestimentas Lucy — Alquiler de Trajes Típicos del Perú</title>
     <link rel="stylesheet" href="css/style.css">
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='28' font-size='28'>👗</text></svg>">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 24 24' fill='none' stroke='%23D35400' stroke-width='2'%3E%3Cpath d='m6 2 2 4h8l2-4'/%3E%3Cpath d='M6 6v14a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V6'/%3E%3C/svg%3E">
 </head>
 <body>
 
@@ -15,7 +15,7 @@
     <nav class="navbar" id="navbar">
         <div class="navbar-inner">
             <a href="#" class="navbar-brand">
-                <div class="brand-icon">👗</div>
+                <div class="brand-icon"><i data-lucide="shirt" style="width:20px;height:20px;color:#fff;"></i></div>
                 <span class="brand-text">Vestimentas Lucy</span>
             </a>
 
@@ -29,7 +29,7 @@
                 <li>
                     <a href="https://wa.me/51948291212?text=Hola%2C%20vengo%20del%20catálogo%20web%20y%20deseo%20información."
                        class="btn btn-sm btn-whatsapp" target="_blank" rel="noopener">
-                        💬 WhatsApp
+                        <i data-lucide="message-circle" style="width:16px;height:16px;"></i> WhatsApp
                     </a>
                 </li>
             </ul>
@@ -52,11 +52,11 @@
             </p>
             <div class="hero-actions">
                 <a href="#catalogo" class="btn btn-primary btn-lg">
-                    🎭 Explorar catálogo
+                    <i data-lucide="theater" style="width:18px;height:18px;"></i> Explorar catálogo
                 </a>
                 <a href="https://wa.me/51948291212?text=Hola%2C%20vengo%20del%20catálogo%20web%20y%20deseo%20información."
                    class="btn btn-secondary btn-lg" target="_blank" rel="noopener">
-                    💬 Consultar
+                    <i data-lucide="message-circle" style="width:18px;height:18px;"></i> Consultar
                 </a>
             </div>
         </div>
@@ -71,7 +71,7 @@
 
         <!-- Buscador -->
         <div class="search-bar-container">
-            <span class="search-icon">🔍</span>
+            <span class="search-icon"><i data-lucide="search" style="width:18px;height:18px;"></i></span>
             <input type="text" class="search-bar" id="searchInput"
                    placeholder="Buscar por nombre de vestimenta o danza..." autocomplete="off">
         </div>
@@ -79,9 +79,9 @@
         <!-- Filtros por Región -->
         <div class="filter-tabs" id="filterTabs">
             <button class="filter-tab active" data-region="all">Todas</button>
-            <button class="filter-tab" data-region="Costa">🌊 Costa</button>
-            <button class="filter-tab" data-region="Sierra">⛰️ Sierra</button>
-            <button class="filter-tab" data-region="Selva">🌿 Selva</button>
+            <button class="filter-tab" data-region="Costa"><i data-lucide="waves" style="width:14px;height:14px;"></i> Costa</button>
+            <button class="filter-tab" data-region="Sierra"><i data-lucide="mountain" style="width:14px;height:14px;"></i> Sierra</button>
+            <button class="filter-tab" data-region="Selva"><i data-lucide="trees" style="width:14px;height:14px;"></i> Selva</button>
         </div>
 
         <!-- Grid del catálogo (se llena dinámicamente) -->
@@ -119,7 +119,7 @@
 
         <!-- Estado vacío (oculto por defecto) -->
         <div class="empty-state" id="emptyState" style="display: none;">
-            <div class="empty-icon">🔍</div>
+            <div class="empty-icon"><i data-lucide="search-x" style="width:48px;height:48px;"></i></div>
             <p>No se encontraron vestimentas que coincidan con tu búsqueda.</p>
         </div>
     </main>
@@ -141,7 +141,7 @@
             </div>
             <div class="modal-footer">
                 <a href="#" class="btn btn-whatsapp btn-lg" id="modalWhatsapp" target="_blank" rel="noopener">
-                    💬 Reservar por WhatsApp
+                    <i data-lucide="message-circle" style="width:18px;height:18px;"></i> Reservar por WhatsApp
                 </a>
             </div>
         </div>
@@ -157,13 +157,15 @@
     </footer>
 
     <!-- Botón scroll to top -->
-    <button class="scroll-top-btn" id="scrollTopBtn" aria-label="Volver arriba">↑</button>
+    <button class="scroll-top-btn" id="scrollTopBtn" aria-label="Volver arriba"><i data-lucide="arrow-up" style="width:20px;height:20px;"></i></button>
 
     <!-- Toast container -->
     <div class="toast-container" id="toastContainer"></div>
 
     <!-- Scripts -->
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
     <script type="module" src="js/app.js"></script>
+    <script>document.addEventListener('DOMContentLoaded', () => lucide.createIcons());</script>
 
 </body>
 </html>

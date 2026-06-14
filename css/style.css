@@ -8,45 +8,47 @@
 
 /* ── Variables de Diseño ── */
 :root {
-    /* Paleta principal — tonos cálidos y elegantes */
-    --color-primary: #8B5CF6;
-    --color-primary-light: #A78BFA;
-    --color-primary-dark: #7C3AED;
-    --color-secondary: #EC4899;
-    --color-secondary-light: #F472B6;
-    --color-accent: #F59E0B;
-    --color-accent-light: #FBBF24;
+    /* Paleta principal — tonos cálidos y peruanos */
+    --color-primary: #D35400;
+    --color-primary-light: #E67E22;
+    --color-primary-dark: #A04000;
+    --color-secondary: #C0392B;
+    --color-secondary-light: #E74C3C;
+    --color-accent: #F39C12;
+    --color-accent-light: #F1C40F;
+    --color-whatsapp: #25D366;
+    --color-whatsapp-dark: #128C7E;
 
     /* Fondos */
-    --bg-body: #0F0B1A;
-    --bg-card: rgba(255, 255, 255, 0.04);
-    --bg-card-hover: rgba(255, 255, 255, 0.08);
-    --bg-glass: rgba(139, 92, 246, 0.08);
-    --bg-surface: #1A1528;
-    --bg-surface-2: #231D33;
+    --bg-body: #FDFBF7;
+    --bg-card: #FFFFFF;
+    --bg-card-hover: #FFF8F0;
+    --bg-glass: rgba(211, 84, 0, 0.06);
+    --bg-surface: #FFFFFF;
+    --bg-surface-2: #F8F4EE;
 
     /* Texto */
-    --text-primary: #F8FAFC;
-    --text-secondary: #CBD5E1;
-    --text-muted: #94A3B8;
-    --text-accent: #C4B5FD;
+    --text-primary: #2C3E50;
+    --text-secondary: #5D6D7E;
+    --text-muted: #95A5A6;
+    --text-accent: #D35400;
 
     /* Bordes */
-    --border-subtle: rgba(255, 255, 255, 0.06);
-    --border-card: rgba(139, 92, 246, 0.15);
-    --border-glow: rgba(139, 92, 246, 0.4);
+    --border-subtle: rgba(44, 62, 80, 0.08);
+    --border-card: rgba(211, 84, 0, 0.15);
+    --border-glow: rgba(211, 84, 0, 0.35);
 
     /* Sombras */
-    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
-    --shadow-md: 0 4px 14px rgba(0, 0, 0, 0.4);
-    --shadow-lg: 0 10px 40px rgba(0, 0, 0, 0.5);
-    --shadow-glow: 0 0 30px rgba(139, 92, 246, 0.15);
+    --shadow-sm: 0 1px 3px rgba(44, 62, 80, 0.06);
+    --shadow-md: 0 4px 14px rgba(44, 62, 80, 0.08);
+    --shadow-lg: 0 10px 40px rgba(44, 62, 80, 0.1);
+    --shadow-glow: 0 0 30px rgba(211, 84, 0, 0.08);
 
     /* Gradientes */
-    --gradient-hero: linear-gradient(135deg, #0F0B1A 0%, #1A1035 50%, #0F0B1A 100%);
-    --gradient-primary: linear-gradient(135deg, #8B5CF6, #EC4899);
-    --gradient-card: linear-gradient(145deg, rgba(139, 92, 246, 0.08), rgba(236, 72, 153, 0.04));
-    --gradient-text: linear-gradient(135deg, #C4B5FD, #F9A8D4);
+    --gradient-hero: linear-gradient(135deg, #FDFBF7 0%, #FFF5EB 50%, #FDFBF7 100%);
+    --gradient-primary: linear-gradient(135deg, #D35400, #E67E22);
+    --gradient-card: linear-gradient(145deg, #FFFFFF, #FFF9F3);
+    --gradient-text: linear-gradient(135deg, #D35400, #C0392B);
 
     /* Tipografía */
     --font-heading: 'Outfit', sans-serif;
@@ -104,9 +106,9 @@ body::before {
     position: fixed;
     inset: 0;
     background: 
-        radial-gradient(ellipse 600px 400px at 20% 20%, rgba(139, 92, 246, 0.06), transparent),
-        radial-gradient(ellipse 500px 350px at 80% 80%, rgba(236, 72, 153, 0.05), transparent),
-        radial-gradient(ellipse 400px 300px at 50% 50%, rgba(245, 158, 11, 0.03), transparent);
+        radial-gradient(ellipse 600px 400px at 20% 20%, rgba(211, 84, 0, 0.03), transparent),
+        radial-gradient(ellipse 500px 350px at 80% 80%, rgba(243, 156, 18, 0.03), transparent),
+        radial-gradient(ellipse 400px 300px at 50% 50%, rgba(192, 57, 43, 0.02), transparent);
     pointer-events: none;
     z-index: 0;
     animation: bgPulse 15s ease-in-out infinite alternate;
@@ -125,7 +127,7 @@ body::before {
     right: 0;
     z-index: 1000;
     padding: var(--space-md) var(--space-xl);
-    background: rgba(15, 11, 26, 0.75);
+    background: rgba(253, 251, 247, 0.85);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
     border-bottom: 1px solid var(--border-subtle);
@@ -133,7 +135,7 @@ body::before {
 }
 
 .navbar.scrolled {
-    background: rgba(15, 11, 26, 0.92);
+    background: rgba(253, 251, 247, 0.95);
     box-shadow: var(--shadow-md);
 }
 
@@ -351,12 +353,12 @@ body::before {
 .btn-primary {
     background: var(--gradient-primary);
     color: #fff;
-    box-shadow: 0 4px 20px rgba(139, 92, 246, 0.3);
+    box-shadow: 0 4px 20px rgba(211, 84, 0, 0.3);
 }
 
 .btn-primary:hover {
     transform: translateY(-2px);
-    box-shadow: 0 6px 30px rgba(139, 92, 246, 0.45);
+    box-shadow: 0 6px 30px rgba(211, 84, 0, 0.4);
 }
 
 .btn-secondary {
@@ -440,7 +442,7 @@ body::before {
 
 .search-bar:focus {
     border-color: var(--color-primary);
-    box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.15);
+    box-shadow: 0 0 0 3px rgba(211, 84, 0, 0.12);
 }
 
 .search-bar::placeholder {
@@ -489,7 +491,7 @@ body::before {
     background: var(--gradient-primary);
     color: #fff;
     border-color: transparent;
-    box-shadow: 0 2px 12px rgba(139, 92, 246, 0.3);
+    box-shadow: 0 2px 12px rgba(211, 84, 0, 0.3);
 }
 
 /* ── GRID DE CATÁLOGO ── */
@@ -540,7 +542,7 @@ body::before {
     top: var(--space-md);
     left: var(--space-md);
     padding: 4px 12px;
-    background: rgba(15, 11, 26, 0.7);
+    background: rgba(253, 251, 247, 0.85);
     backdrop-filter: blur(10px);
     border-radius: var(--radius-full);
     font-size: 0.75rem;
@@ -614,8 +616,8 @@ body::before {
 .talla-chip.available:hover,
 .talla-chip.selected {
     border-color: var(--color-primary);
-    background: rgba(139, 92, 246, 0.1);
-    color: var(--color-primary-light);
+    background: rgba(211, 84, 0, 0.08);
+    color: var(--color-primary);
 }
 
 .talla-chip.unavailable {
@@ -905,7 +907,7 @@ body::before {
     visibility: hidden;
     transform: translateY(10px);
     transition: var(--transition-base);
-    box-shadow: 0 4px 16px rgba(139, 92, 246, 0.3);
+    box-shadow: 0 4px 16px rgba(211, 84, 0, 0.3);
 }
 
 .scroll-top-btn.visible {
@@ -916,7 +918,7 @@ body::before {
 
 .scroll-top-btn:hover {
     transform: translateY(-3px);
-    box-shadow: 0 6px 24px rgba(139, 92, 246, 0.45);
+    box-shadow: 0 6px 24px rgba(211, 84, 0, 0.4);
 }
 
 /* ── RESPONSIVE ── */
@@ -928,7 +930,7 @@ body::before {
         left: 0;
         right: 0;
         flex-direction: column;
-        background: rgba(15, 11, 26, 0.95);
+        background: rgba(253, 251, 247, 0.97);
         backdrop-filter: blur(20px);
         padding: var(--space-lg);
         gap: var(--space-md);

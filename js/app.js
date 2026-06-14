@@ -175,11 +175,11 @@ function crearCard(vestimenta, index) {
 
     // Colores de placeholder por región
     const regionColors = {
-        'Costa': ['#3B82F6', '#06B6D4'],
-        'Sierra': ['#F59E0B', '#EF4444'],
-        'Selva': ['#10B981', '#34D399']
+        'Costa': ['#3498DB', '#2980B9'],
+        'Sierra': ['#E67E22', '#D35400'],
+        'Selva': ['#27AE60', '#2ECC71']
     };
-    const colors = regionColors[vestimenta.region] || ['#8B5CF6', '#EC4899'];
+    const colors = regionColors[vestimenta.region] || ['#D35400', '#E67E22'];
 
     const card = document.createElement('div');
     card.className = 'vestimenta-card';
@@ -192,7 +192,7 @@ function crearCard(vestimenta, index) {
                 ? `<img src="${vestimenta.imagenUrl}" alt="${vestimenta.nombre}" loading="lazy">`
                 : `<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;
                     background:linear-gradient(135deg, ${colors[0]}22, ${colors[1]}22);
-                    font-size:4rem;">🎭</div>`
+                    font-size:4rem;"><svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="color:var(--text-muted);opacity:0.5;"><path d="m6 2 2 4h8l2-4"/><path d="M6 6v14a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V6"/></svg></div>`
             }
             <span class="card-badge">${getRegionEmoji(vestimenta.region)} ${vestimenta.region}</span>
             <span class="card-stock-badge ${hayStock ? 'in-stock' : 'out-of-stock'}">
@@ -213,12 +213,12 @@ function crearCard(vestimenta, index) {
             <div class="card-actions">
                 <button class="btn btn-secondary btn-sm btn-ver-detalle" 
                         data-id="${vestimenta.id}">
-                    👁️ Ver detalle
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg> Ver detalle
                 </button>
                 ${hayStock ? `
                     <button class="btn btn-whatsapp btn-sm btn-reservar"
                             data-id="${vestimenta.id}">
-                        💬 Reservar
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg> Reservar
                     </button>
                 ` : `
                     <button class="btn btn-sm" disabled 
@@ -318,7 +318,7 @@ function abrirModal(vestimenta) {
         actualizarBotonWhatsApp(vestimenta.nombre);
     } else {
         modalWhatsapp.href = '#';
-        modalWhatsapp.textContent = '❌ Sin stock disponible';
+        modalWhatsapp.textContent = 'Sin stock disponible';
         modalWhatsapp.classList.remove('btn-whatsapp');
         modalWhatsapp.style.pointerEvents = 'none';
         modalWhatsapp.style.opacity = '0.5';
@@ -334,7 +334,7 @@ function actualizarBotonWhatsApp(nombrePrenda) {
     if (tallaSeleccionadaModal) {
         const url = construirUrlWhatsApp(nombrePrenda, tallaSeleccionadaModal);
         modalWhatsapp.href = url;
-        modalWhatsapp.innerHTML = `💬 Reservar talla ${tallaSeleccionadaModal} por WhatsApp`;
+        modalWhatsapp.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;margin-right:6px;"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg>Reservar talla ${tallaSeleccionadaModal} por WhatsApp`;
         modalWhatsapp.classList.add('btn-whatsapp');
         modalWhatsapp.style.pointerEvents = 'auto';
         modalWhatsapp.style.opacity = '1';
@@ -431,9 +431,13 @@ function calcularStockTotal(tallas) {
     return Object.values(tallas).reduce((sum, cant) => sum + cant, 0);
 }
 
-function getRegionEmoji(region) {
-    const emojis = { 'Costa': '🌊', 'Sierra': '⛰️', 'Selva': '🌿' };
-    return emojis[region] || '📍';
+function getRegionIcon(region) {
+    const icons = {
+        'Costa': '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;"><path d="M2 6c.6.5 1.2 1 2.5 1C7 7 7 5 9.5 5c2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/><path d="M2 12c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/><path d="M2 18c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/></svg>',
+        'Sierra': '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;"><path d="m8 3 4 8 5-5 5 15H2L8 3z"/></svg>',
+        'Selva': '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;"><path d="M10 10v.2A3 3 0 0 1 8.9 16H5a3 3 0 0 1-1-5.8V10a3 3 0 0 1 6 0Z"/><path d="M7 16v6"/><path d="M13 19v3"/><path d="M16 14v.2A3 3 0 0 1 14.9 20H11a3 3 0 0 1-1-5.8V14a3 3 0 0 1 6 0Z"/></svg>'
+    };
+    return icons[region] || '';
 }
 
 function showToast(message, duration = 4000) {
