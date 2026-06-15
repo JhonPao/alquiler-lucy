@@ -93,11 +93,11 @@ function renderCatalogo(filtro = '') {
             .join('');
 
         const regionColors = {
-            'Costa': '#3498DB',
-            'Sierra': '#E67E22',
-            'Selva': '#27AE60'
+            'Costa': '#4D5CD2',
+            'Sierra': '#DB8517',
+            'Selva': '#059F78'
         };
-        const color = regionColors[v.region] || '#D35400';
+        const color = regionColors[v.region] || '#DB8517';
 
         const imgHtml = v.imagenUrl
             ? `<img src="${v.imagenUrl}" alt="${v.nombre}" style="width:100%;height:100%;object-fit:cover;">`
@@ -135,8 +135,8 @@ function seleccionarPrenda(id) {
 
     // Renderizar info de la prenda seleccionada
     const stockTotal = Object.values(prendaSeleccionada.tallas || {}).reduce((s, c) => s + c, 0);
-    const regionColors = { 'Costa': '#3498DB', 'Sierra': '#E67E22', 'Selva': '#27AE60' };
-    const color = regionColors[prendaSeleccionada.region] || '#D35400';
+    const regionColors = { 'Costa': '#4D5CD2', 'Sierra': '#DB8517', 'Selva': '#059F78' };
+    const color = regionColors[prendaSeleccionada.region] || '#DB8517';
 
     const imgHtml = prendaSeleccionada.imagenUrl
         ? `<img src="${prendaSeleccionada.imagenUrl}" alt="${prendaSeleccionada.nombre}">`

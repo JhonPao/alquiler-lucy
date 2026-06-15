@@ -175,11 +175,11 @@ function crearCard(vestimenta, index) {
 
     // Colores de placeholder por región
     const regionColors = {
-        'Costa': ['#3498DB', '#2980B9'],
-        'Sierra': ['#E67E22', '#D35400'],
-        'Selva': ['#27AE60', '#2ECC71']
+        'Costa': ['#4D5CD2', '#4D5CD2'],
+        'Sierra': ['#DB8517', '#DB8517'],
+        'Selva': ['#059F78', '#059F78']
     };
-    const colors = regionColors[vestimenta.region] || ['#D35400', '#E67E22'];
+    const colors = regionColors[vestimenta.region] || ['#DB8517', '#DB8517'];
 
     const card = document.createElement('div');
     card.className = 'vestimenta-card';
