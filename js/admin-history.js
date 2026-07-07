@@ -5,6 +5,7 @@
 // =====================================================
 
 import { db } from './firebase-config.js';
+import { t } from './i18n.js';
 import {
     collection, getDocs, doc, updateDoc, getDoc,
     increment, query, orderBy, serverTimestamp, Timestamp
@@ -64,7 +65,7 @@ function renderHistorial(lista) {
         tableBody.innerHTML = `
             <tr>
                 <td colspan="9" style="text-align:center; color: var(--text-muted); padding: 40px;">
-                    ${filtro !== 'all' ? 'No hay alquileres con estado "' + filtro + '".' : 'No hay alquileres registrados.'}
+                    ${filtro !== 'all' ? t('historial.no_hay_filtro', { estado: filtro }) : t('historial.no_hay')}
                 </td>
             </tr>`;
         return;
@@ -75,7 +76,7 @@ function renderHistorial(lista) {
         const prenda = alquiler.detalle_prendas?.[0] || {};
         const fechas = alquiler.fechas || {};
 
-        const nombreCompleto = `${cliente.nombres || ''} ${cliente.apellidos || ''}`.trim() || 'Sin datos';
+        const nombreCompleto = `${cliente.nombres || ''} ${cliente.apellidos || ''}`.trim() || t('historial.sin_datos');
         const fechaInicio = formatearFecha(fechas.inicio);
         const fechaDevolucion = formatearFecha(fechas.devolucion_acordada);
 
@@ -96,17 +97,17 @@ function renderHistorial(lista) {
         let acciones = '';
         if (alquiler.estado === 'Alquilado') {
             acciones = `
-                <button class="btn btn-secondary btn-sm btn-devolver" data-id="${alquiler.id}" title="Marcar como devuelto"
+                <button class="btn btn-secondary btn-sm btn-devolver" data-id="${alquiler.id}" title="${t('historial.marcar_devuelto')}"
                         style="border-color: rgba(39,174,96,0.3); color: #27AE60; font-size: 0.75rem;">
-                    Devolver
+                    ${t('historial.devolver')}
                 </button>
-                <button class="btn btn-secondary btn-sm btn-cancelar-alquiler" data-id="${alquiler.id}" title="Cancelar alquiler"
+                <button class="btn btn-secondary btn-sm btn-cancelar-alquiler" data-id="${alquiler.id}" title="${t('historial.cancelar')}"
                         style="border-color: rgba(239,68,68,0.2); font-size: 0.75rem;">
                     ×
                 </button>
             `;
         } else {
-            acciones = `<span style="color: var(--text-muted); font-size: 0.8rem;">—</span>`;
+            acciones = `<span style="color: var(--text-muted); font-size: 0.8rem;">${t('historial.sin_accion')}</span>`;
         }
 
         return `
@@ -162,8 +163,8 @@ async function marcarDevuelto(alquilerId) {
 
     showConfirmDialog(
         '',
-        '¿Marcar como devuelto?',
-        `Se registrará la devolución de "${prenda?.nombre}" por ${nombreCliente} y se retornará el stock al inventario.`,
+        t('historial.confirmar_devuelto'),
+        t('historial.confirmar_devuelto_msg', { prenda: prenda?.nombre || '', cliente: nombreCliente }),
         async () => {
             try {
                 // 1. Actualizar estado del alquiler
@@ -182,12 +183,12 @@ async function marcarDevuelto(alquilerId) {
                     });
                 }
 
-                showToast('Alquiler marcado como devuelto. Stock actualizado.');
+                showToast(t('historial.devuelto_ok'));
                 await cargarHistorial();
 
             } catch (error) {
                 console.error('Error al marcar devuelto:', error);
-                showToast('Error al actualizar. Revise la consola.');
+                showToast(t('historial.error_actualizar'));
             }
         }
     );
@@ -204,8 +205,8 @@ async function cancelarAlquiler(alquilerId) {
 
     showConfirmDialog(
         '',
-        '¿Cancelar este alquiler?',
-        'Se cancelará el contrato y se retornará el stock al inventario. Esta acción no se puede deshacer.',
+        t('historial.confirmar_cancelar'),
+        t('historial.confirmar_cancelar_msg'),
         async () => {
             try {
                 // 1. Actualizar estado
@@ -223,12 +224,12 @@ async function cancelarAlquiler(alquilerId) {
                     });
                 }
 
-                showToast('Alquiler cancelado. Stock retornado.');
+                showToast(t('historial.cancelado_ok'));
                 await cargarHistorial();
 
             } catch (error) {
                 console.error('Error al cancelar alquiler:', error);
-                showToast('Error al cancelar. Revise la consola.');
+                showToast(t('historial.error_cancelar'));
             }
         }
     );
@@ -248,6 +249,11 @@ function formatearFecha(valor) {
     if (isNaN(date.getTime())) return '—';
     return date.toLocaleDateString('es-PE', { day: '2-digit', month: '2-digit', year: 'numeric' });
 }
+
+// Re-render al cambiar idioma
+window.addEventListener('languageChanged', () => {
+    renderHistorial(alquileresList);
+});
 
 function showToast(message, duration = 4000) {
     const container = document.getElementById('toastContainer');

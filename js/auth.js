@@ -4,6 +4,7 @@
 // =====================================================
 
 import { auth } from './firebase-config.js';
+import { t } from './i18n.js';
 import {
     signInWithEmailAndPassword,
     onAuthStateChanged,
@@ -71,7 +72,7 @@ if (isLoginPage) {
             const password = document.getElementById('loginPassword').value;
 
             if (!email || !password) {
-                mostrarError('Por favor, complete todos los campos.');
+                mostrarError(t('auth.error_completar'));
                 return;
             }
 
@@ -131,7 +132,12 @@ function mostrarPanelAdmin(user) {
 
     const userName = document.getElementById('userName');
     if (userName) {
-        userName.textContent = user.displayName || 'Administrador';
+        if (user.displayName) {
+            userName.textContent = user.displayName;
+            userName.dataset.hasDisplayName = 'true';
+        } else {
+            userName.textContent = t('auth.administrador');
+        }
     }
 }
 
@@ -148,9 +154,17 @@ export async function cerrarSesion() {
         window.location.href = 'login.html';
     } catch (error) {
         console.error('Error al cerrar sesión:', error);
-        alert('Error al cerrar sesión. Intente de nuevo.');
+        alert(t('auth.error_cerrar'));
     }
 }
+
+// Actualizar nombre de usuario al cambiar idioma
+window.addEventListener('languageChanged', () => {
+    const userName = document.getElementById('userName');
+    if (userName && !userName.dataset.hasDisplayName) {
+        userName.textContent = t('auth.administrador');
+    }
+});
 
 // Hacer la función accesible globalmente (para onclick en HTML)
 window.cerrarSesion = cerrarSesion;
@@ -160,14 +174,14 @@ window.cerrarSesion = cerrarSesion;
 // ══════════════════════════════════════════════════════
 function traducirErrorFirebase(codigoError) {
     const errores = {
-        'auth/invalid-email': 'El correo electrónico no es válido.',
-        'auth/user-disabled': 'Esta cuenta ha sido deshabilitada.',
-        'auth/user-not-found': 'No existe una cuenta con ese correo.',
-        'auth/wrong-password': 'La contraseña es incorrecta.',
-        'auth/invalid-credential': 'Credenciales inválidas. Verifique su correo y contraseña.',
-        'auth/too-many-requests': 'Demasiados intentos fallidos. Espere unos minutos.',
-        'auth/network-request-failed': 'Error de conexión. Verifique su internet.',
-        'auth/internal-error': 'Error interno del servidor. Intente más tarde.'
+        'auth/invalid-email': t('auth.error_invalido'),
+        'auth/user-disabled': t('auth.error_deshabilitada'),
+        'auth/user-not-found': t('auth.error_no_encontrado'),
+        'auth/wrong-password': t('auth.error_password'),
+        'auth/invalid-credential': t('auth.error_credenciales'),
+        'auth/too-many-requests': t('auth.error_muchos_intentos'),
+        'auth/network-request-failed': t('auth.error_conexion'),
+        'auth/internal-error': t('auth.error_interno')
     };
-    return errores[codigoError] || 'Error inesperado. Intente de nuevo.';
+    return errores[codigoError] || t('auth.error_inesperado');
 }

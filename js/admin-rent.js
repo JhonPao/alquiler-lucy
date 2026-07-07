@@ -5,6 +5,7 @@
 // =====================================================
 
 import { db } from './firebase-config.js';
+import { t } from './i18n.js';
 import {
     collection, getDocs, addDoc, doc, updateDoc,
     increment, query, where, serverTimestamp
@@ -80,7 +81,7 @@ function renderCatalogo(filtro = '') {
         rentCatalogGrid.innerHTML = `
             <div style="text-align:center; color: var(--text-muted); padding: 60px 20px; grid-column: 1 / -1;">
                 <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="margin-bottom:12px;opacity:0.4;"><path d="m6 2 2 4h8l2-4"/><path d="M6 6v14a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V6"/></svg>
-                <p style="font-size:1rem;">No se encontraron vestimentas disponibles.</p>
+                <p style="font-size:1rem;">${t('alquilar.no_disponibles')}</p>
             </div>`;
         return;
     }
@@ -115,10 +116,10 @@ function renderCatalogo(filtro = '') {
                     <h4 class="rent-card-name">${v.nombre}</h4>
                     <div class="rent-card-tallas">${tallasDisp}</div>
                     <div class="rent-card-footer">
-                        <span class="rent-card-stock">${stockTotal} disponible${stockTotal > 1 ? 's' : ''}</span>
+                        <span class="rent-card-stock">${stockTotal} ${stockTotal > 1 ? t('alquilar.disponibles') : t('alquilar.disponible')}</span>
                         <button class="btn btn-primary btn-sm btn-alquilar-card" data-id="${v.id}">
                             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 3h5v5"/><path d="M8 3H3v5"/><path d="M12 22v-8.3a4 4 0 0 0-1.172-2.872L3 3"/><path d="m15 9 6-6"/></svg>
-                            Alquilar
+                            ${t('alquilar.alquilar')}
                         </button>
                     </div>
                 </div>
@@ -150,17 +151,17 @@ function seleccionarPrenda(id) {
             <div class="rent-selected-info">
                 <span class="rent-selected-region" style="color:${color};">${getRegionIcon(prendaSeleccionada.region)} ${prendaSeleccionada.region} · ${prendaSeleccionada.danza}</span>
                 <h3>${prendaSeleccionada.nombre}</h3>
-                <p>${stockTotal} unidad${stockTotal > 1 ? 'es' : ''} disponible${stockTotal > 1 ? 's' : ''}</p>
+                <p>${stockTotal} ${stockTotal > 1 ? t('alquilar.unidades') : t('alquilar.unidad')} ${stockTotal > 1 ? t('alquilar.disponibles') : t('alquilar.disponible')}</p>
             </div>
         </div>`;
 
     // Poblar selector de tallas
-    selectTalla.innerHTML = '<option value="">Seleccionar talla...</option>';
+    selectTalla.innerHTML = `<option value="">${t('alquilar.seleccionar_talla')}</option>`;
     const tallasConStock = Object.entries(prendaSeleccionada.tallas || {}).filter(([, c]) => c > 0);
     tallasConStock.forEach(([talla, cant]) => {
         const option = document.createElement('option');
         option.value = talla;
-        option.textContent = `${talla} — ${cant} disponible${cant > 1 ? 's' : ''}`;
+        option.textContent = `${talla} — ${cant} ${cant > 1 ? t('alquilar.disponibles') : t('alquilar.disponible')}`;
         option.dataset.stock = cant;
         selectTalla.appendChild(option);
     });
@@ -253,43 +254,43 @@ async function registrarAlquiler(e) {
     e.preventDefault();
 
     if (!prendaSeleccionada) {
-        showToast('Seleccione una vestimenta');
+        showToast(t('alquilar.seleccione_prenda'));
         return;
     }
 
     const tallaSeleccionada = selectTalla.value;
     if (!tallaSeleccionada) {
-        showToast('Seleccione una talla');
+        showToast(t('alquilar.seleccione_talla'));
         return;
     }
 
     const cantidadLlevar = parseInt(inputCantidad.value, 10);
     if (isNaN(cantidadLlevar) || cantidadLlevar < 1) {
-        showToast('La cantidad debe ser al menos 1');
+        showToast(t('alquilar.cantidad_minima'));
         return;
     }
 
     const stockActual = prendaSeleccionada.tallas?.[tallaSeleccionada] || 0;
     if (cantidadLlevar > stockActual) {
-        showToast(`Solo hay ${stockActual} unidad(es) disponibles en talla ${tallaSeleccionada}`);
+        showToast(t('alquilar.sin_stock_talla', { stock: stockActual, talla: tallaSeleccionada }));
         return;
     }
 
     const dni = document.getElementById('clienteDni').value.trim();
     if (dni.length !== 8 || !/^\d{8}$/.test(dni)) {
-        showToast('El DNI debe tener exactamente 8 dígitos');
+        showToast(t('alquilar.dni_invalido'));
         return;
     }
 
     const fechaInicio = document.getElementById('fechaInicio').value;
     const fechaDevolucion = document.getElementById('fechaDevolucion').value;
     if (fechaDevolucion <= fechaInicio) {
-        showToast('La fecha de devolución debe ser posterior a la de inicio');
+        showToast(t('alquilar.fecha_invalida'));
         return;
     }
 
     btnRegistrar.disabled = true;
-    btnRegistrar.innerHTML = 'Registrando...';
+    btnRegistrar.innerHTML = t('alquilar.registrando') + '...';
 
     try {
         const nombres = document.getElementById('clienteNombres').value.trim();
@@ -326,7 +327,7 @@ async function registrarAlquiler(e) {
             [campoTalla]: increment(-cantidadLlevar)
         });
 
-        showToast('Alquiler registrado correctamente');
+        showToast(t('alquilar.exito'));
 
         formAlquiler.reset();
         setFechasDefault();
@@ -338,10 +339,10 @@ async function registrarAlquiler(e) {
 
     } catch (error) {
         console.error('Error al registrar alquiler:', error);
-        showToast('Error al registrar. Revise la consola.');
+        showToast(t('alquilar.error'));
     } finally {
         btnRegistrar.disabled = false;
-        btnRegistrar.innerHTML = '<i data-lucide="check-circle" style="width:16px;height:16px;"></i> Registrar Alquiler';
+        btnRegistrar.innerHTML = `<i data-lucide="check-circle" style="width:16px;height:16px;"></i> ${t('alquilar.registrar')}`;
         if (typeof lucide !== 'undefined') lucide.createIcons();
     }
 }
@@ -357,6 +358,14 @@ function getRegionIcon(region) {
     };
     return icons[region] || '';
 }
+
+// Re-render al cambiar idioma
+window.addEventListener('languageChanged', () => {
+    renderCatalogo(searchRentCatalog.value);
+    if (prendaSeleccionada) {
+        seleccionarPrenda(prendaSeleccionada.id);
+    }
+});
 
 function showToast(message, duration = 4000) {
     const container = document.getElementById('toastContainer');

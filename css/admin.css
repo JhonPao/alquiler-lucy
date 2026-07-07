@@ -919,3 +919,84 @@
         align-items: flex-start;
     }
 }
+
+/* ── SIDEBAR TOGGLE BUTTONS (idioma / tema) ── */
+.sidebar-toggles {
+    display: flex;
+    gap: 4px;
+    margin-bottom: var(--space-sm);
+}
+
+.sidebar-toggle-btn {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    padding: 6px 8px;
+    background: var(--bg-body);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-sm);
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: var(--transition-fast);
+    font-family: var(--font-body);
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.sidebar-toggle-btn:hover {
+    border-color: var(--border-card);
+    color: var(--text-primary);
+    background: var(--bg-card-hover);
+}
+
+.sidebar-toggle-btn svg {
+    flex-shrink: 0;
+}
+
+/* ── DARK MODE ── */
+[data-theme="dark"] {
+    --bg-body: #12121A;
+    --bg-card: #1A1A2E;
+    --bg-card-hover: #24243E;
+    --bg-glass: rgba(219, 133, 23, 0.08);
+    --bg-surface: #16162A;
+    --bg-surface-2: #1E1E36;
+
+    --text-primary: #E4E4EC;
+    --text-secondary: #B0B0C0;
+    --text-muted: #7A7A8A;
+
+    --border-subtle: rgba(255, 255, 255, 0.07);
+    --border-card: rgba(219, 133, 23, 0.25);
+    --border-glow: rgba(219, 133, 23, 0.4);
+
+    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
+    --shadow-md: 0 6px 24px rgba(0, 0, 0, 0.4);
+    --shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.5);
+    --shadow-glow: 0 0 30px rgba(219, 133, 23, 0.12);
+
+    --gradient-hero: linear-gradient(135deg, #12121A 0%, #1A1A2E 50%, #12121A 100%);
+    --gradient-card: linear-gradient(145deg, #1A1A2E, #1E1E36);
+}
+
+/* ── REDUCED MOTION ── */
+@media (prefers-reduced-motion: reduce) {
+    .admin-panel.active { animation: none; }
+    .stat-card:hover { transform: none; }
+    .rent-card:hover { transform: none; }
+    .toast { animation: none; }
+    .vestimenta-card:hover { transform: none; }
+    .vestimenta-card:hover .card-image-wrapper img { transform: none; }
+    .rent-card:hover .rent-card-image img { transform: none; }
+    .skeleton { animation: none; }
+    .stat-card .stat-value { transition: none; }
+    .loading-screen .loading-spinner { animation: none; }
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}

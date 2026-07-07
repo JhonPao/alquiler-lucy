@@ -5,6 +5,7 @@
 // =====================================================
 
 import { db } from './firebase-config.js';
+import { t } from './i18n.js';
 import {
     collection, getDocs, query, where, orderBy
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
@@ -95,7 +96,7 @@ function renderTablaResumen(alquileres) {
         dashboardTableBody.innerHTML = `
             <tr>
                 <td colspan="5" style="text-align:center; color: var(--text-muted); padding: 40px;">
-                    No hay alquileres registrados aún.
+                    ${t('dashboard.no_alquileres')}
                 </td>
             </tr>`;
         return;
@@ -106,7 +107,7 @@ function renderTablaResumen(alquileres) {
         const prenda = alquiler.detalle_prendas?.[0] || {};
         const fechas = alquiler.fechas || {};
 
-        const nombreCompleto = `${cliente.nombres || ''} ${cliente.apellidos || ''}`.trim() || 'Sin datos';
+        const nombreCompleto = `${cliente.nombres || ''} ${cliente.apellidos || ''}`.trim() || t('historial.sin_datos');
         const fechaInicio = formatearFecha(fechas.inicio);
 
         const estadoClass = {
@@ -203,6 +204,11 @@ function getMesAnioActual() {
     const hoy = new Date();
     return `${hoy.getFullYear()}-${String(hoy.getMonth() + 1).padStart(2, '0')}`;
 }
+
+// Re-render al cambiar idioma
+window.addEventListener('languageChanged', () => {
+    cargarDashboard();
+});
 
 function formatearFecha(valor) {
     if (!valor) return '—';

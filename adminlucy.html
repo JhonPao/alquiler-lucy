@@ -14,7 +14,7 @@
     <!-- ══════════════════ LOADING SCREEN ══════════════════ -->
     <div class="loading-screen" id="loadingScreen">
         <div class="loading-spinner"></div>
-        <p>Verificando acceso...</p>
+        <p data-i18n="loading.verificando">Verificando acceso...</p>
     </div>
 
     <!-- ══════════════════ CONTENIDO PROTEGIDO ══════════════════ -->
@@ -23,40 +23,53 @@
         <!-- ── SIDEBAR ── -->
         <aside class="sidebar" id="sidebar">
             <div class="sidebar-header">
-                <a href="index.html" class="sidebar-brand" title="Ir al catálogo público">
+                <a href="index.html" class="sidebar-brand" data-i18n-attr="title" data-i18n="sidebar.ir_catalogo" title="Ir al catálogo público">
                     <div class="sidebar-brand-icon"><i data-lucide="shirt" style="width:18px;height:18px;color:#fff;"></i></div>
                     <span class="sidebar-brand-text">Lucy Admin</span>
                 </a>
             </div>
 
             <nav class="sidebar-nav">
-                <div class="sidebar-section-label">Principal</div>
-                <button class="sidebar-link active" data-panel="dashboard" id="navDashboard">
-                    <span class="link-icon"><i data-lucide="bar-chart-3" style="width:18px;height:18px;"></i></span> Dashboard
+                <div class="sidebar-section-label" data-i18n="sidebar.principal">Principal</div>
+                <button class="sidebar-link active" data-panel="dashboard" id="navDashboard" title="Dashboard [Ctrl+1]">
+                    <span class="link-icon"><i data-lucide="bar-chart-3" style="width:18px;height:18px;"></i></span>
+                    <span data-i18n="sidebar.dashboard">Dashboard</span>
                 </button>
 
-                <div class="sidebar-section-label">Gestión</div>
-                <button class="sidebar-link" data-panel="inventario" id="navInventario">
-                    <span class="link-icon"><i data-lucide="shirt" style="width:18px;height:18px;"></i></span> Inventario
+                <div class="sidebar-section-label" data-i18n="sidebar.gestion">Gesti&oacute;n</div>
+                <button class="sidebar-link" data-panel="inventario" id="navInventario" title="Inventario [Ctrl+2]">
+                    <span class="link-icon"><i data-lucide="shirt" style="width:18px;height:18px;"></i></span>
+                    <span data-i18n="sidebar.inventario">Inventario</span>
                 </button>
-                <button class="sidebar-link" data-panel="alquilar" id="navAlquilar">
-                    <span class="link-icon"><i data-lucide="file-pen" style="width:18px;height:18px;"></i></span> Alquilar
+                <button class="sidebar-link" data-panel="alquilar" id="navAlquilar" title="Alquilar [Ctrl+3]">
+                    <span class="link-icon"><i data-lucide="file-pen" style="width:18px;height:18px;"></i></span>
+                    <span data-i18n="sidebar.alquilar">Alquilar</span>
                 </button>
-                <button class="sidebar-link" data-panel="historial" id="navHistorial">
-                    <span class="link-icon"><i data-lucide="clipboard-list" style="width:18px;height:18px;"></i></span> Historial
+                <button class="sidebar-link" data-panel="historial" id="navHistorial" title="Historial [Ctrl+4]">
+                    <span class="link-icon"><i data-lucide="clipboard-list" style="width:18px;height:18px;"></i></span>
+                    <span data-i18n="sidebar.historial">Historial</span>
                 </button>
             </nav>
 
             <div class="sidebar-footer">
+                <div class="sidebar-toggles">
+                    <button class="sidebar-toggle-btn" id="btnLangToggle" title="Cambiar idioma" aria-label="Cambiar idioma">
+                        <span id="langLabel">ES</span>
+                    </button>
+                    <button class="sidebar-toggle-btn" id="btnThemeToggle" title="Modo oscuro" aria-label="Cambiar tema">
+                        <svg id="themeIcon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+                    </button>
+                </div>
                 <div class="sidebar-user">
                     <div class="user-avatar"><i data-lucide="user" style="width:18px;height:18px;color:#fff;"></i></div>
                     <div class="user-info">
-                        <div class="user-name" id="userName">Administrador</div>
+                        <div class="user-name" id="userName" data-i18n="auth.administrador">Administrador</div>
                         <div class="user-email" id="userEmail">admin@lucy.com</div>
                     </div>
                 </div>
                 <button class="btn-logout" onclick="cerrarSesion()">
-                    <i data-lucide="log-out" style="width:16px;height:16px;"></i> Cerrar sesión
+                    <i data-lucide="log-out" style="width:16px;height:16px;"></i>
+                    <span data-i18n="sidebar.cerrar_sesion">Cerrar sesi&oacute;n</span>
                 </button>
             </div>
         </aside>
@@ -67,51 +80,51 @@
             <!-- ═══════════ PANEL: DASHBOARD ═══════════ -->
             <section class="admin-panel active" id="panelDashboard">
                 <div class="admin-topbar">
-                    <h1><i data-lucide="bar-chart-3" style="width:24px;height:24px;"></i> Dashboard</h1>
+                    <h1><i data-lucide="bar-chart-3" style="width:24px;height:24px;"></i> <span data-i18n="dashboard.title">Dashboard</span></h1>
                 </div>
 
                 <div class="stats-grid">
                     <div class="stat-card purple">
                         <div class="stat-icon"><i data-lucide="shirt" style="width:22px;height:22px;color:var(--color-primary);"></i></div>
                         <div class="stat-value" id="statTotalVestimentas">0</div>
-                        <div class="stat-label">Vestimentas registradas</div>
+                        <div class="stat-label" data-i18n="dashboard.vestimentas_registradas">Vestimentas registradas</div>
                     </div>
                     <div class="stat-card pink">
                         <div class="stat-icon"><i data-lucide="file-pen" style="width:22px;height:22px;color:var(--color-secondary);"></i></div>
                         <div class="stat-value" id="statAlquileresMes">0</div>
-                        <div class="stat-label">Alquileres este mes</div>
+                        <div class="stat-label" data-i18n="dashboard.alquileres_mes">Alquileres este mes</div>
                     </div>
                     <div class="stat-card amber">
                         <div class="stat-icon"><i data-lucide="clock" style="width:22px;height:22px;color:var(--color-accent);"></i></div>
                         <div class="stat-value" id="statPendientes">0</div>
-                        <div class="stat-label">Pendientes de devolución</div>
+                        <div class="stat-label" data-i18n="dashboard.pendientes">Pendientes de devoluci&oacute;n</div>
                     </div>
                     <div class="stat-card green">
                         <div class="stat-icon"><i data-lucide="circle-check" style="width:22px;height:22px;color:#27AE60;"></i></div>
                         <div class="stat-value" id="statDevueltos">0</div>
-                        <div class="stat-label">Devueltos este mes</div>
+                        <div class="stat-label" data-i18n="dashboard.devueltos_mes">Devueltos este mes</div>
                     </div>
                 </div>
 
                 <!-- Tabla resumen de últimos alquileres -->
                 <div class="table-container">
                     <div class="table-header">
-                        <h3>Últimos alquileres</h3>
+                        <h3 data-i18n="dashboard.ultimos_alquileres">&Uacute;ltimos alquileres</h3>
                     </div>
                     <div class="table-wrapper">
                         <table class="admin-table">
                             <thead>
                                 <tr>
-                                    <th>Cliente</th>
-                                    <th>Vestimenta</th>
-                                    <th>Talla</th>
-                                    <th>Fecha inicio</th>
-                                    <th>Estado</th>
+                                    <th data-i18n="dashboard.cliente">Cliente</th>
+                                    <th data-i18n="dashboard.vestimenta">Vestimenta</th>
+                                    <th data-i18n="dashboard.talla">Talla</th>
+                                    <th data-i18n="dashboard.fecha_inicio">Fecha inicio</th>
+                                    <th data-i18n="dashboard.estado">Estado</th>
                                 </tr>
                             </thead>
                             <tbody id="dashboardTableBody">
                                 <tr>
-                                    <td colspan="5" style="text-align:center; color: var(--text-muted); padding: 40px;">
+                                    <td colspan="5" style="text-align:center; color: var(--text-muted); padding: 40px;" data-i18n="dashboard.cargando">
                                         Cargando datos...
                                     </td>
                                 </tr>
@@ -124,10 +137,11 @@
             <!-- ═══════════ PANEL: INVENTARIO ═══════════ -->
             <section class="admin-panel" id="panelInventario">
                 <div class="admin-topbar">
-                    <h1><i data-lucide="shirt" style="width:24px;height:24px;"></i> Inventario</h1>
+                    <h1><i data-lucide="shirt" style="width:24px;height:24px;"></i> <span data-i18n="inventario.title">Inventario</span></h1>
                     <div class="topbar-actions">
                         <button class="btn btn-primary" id="btnNuevaVestimenta">
-                            <i data-lucide="plus" style="width:16px;height:16px;"></i> Nueva vestimenta
+                            <i data-lucide="plus" style="width:16px;height:16px;"></i>
+                            <span data-i18n="inventario.nueva_vestimenta">Nueva vestimenta</span>
                         </button>
                     </div>
                 </div>
@@ -140,22 +154,24 @@
 
                         <div class="form-row">
                             <div class="form-group">
-                                <label for="vestimentaNombre">Nombre de la prenda <span class="required">*</span></label>
+                                <label for="vestimentaNombre"><span data-i18n="inventario.nombre_prenda">Nombre de la prenda</span> <span class="required">*</span></label>
                                 <input type="text" class="form-input" id="vestimentaNombre"
-                                       placeholder="Ej: Traje de Marinera Norteña" required>
+                                       data-i18n-placeholder="inventario.placeholder_nombre_ej"
+                                       placeholder="Ej: Traje de Marinera Norte&ntilde;a" required>
                             </div>
                             <div class="form-group">
-                                <label for="vestimentaDanza">Danza <span class="required">*</span></label>
+                                <label for="vestimentaDanza"><span data-i18n="inventario.danza">Danza</span> <span class="required">*</span></label>
                                 <input type="text" class="form-input" id="vestimentaDanza"
-                                       placeholder="Ej: Marinera Norteña" required>
+                                       data-i18n-placeholder="inventario.placeholder_danza_ej"
+                                       placeholder="Ej: Marinera Norte&ntilde;a" required>
                             </div>
                         </div>
 
                         <div class="form-row">
                             <div class="form-group">
-                                <label for="vestimentaRegion">Región <span class="required">*</span></label>
+                                <label for="vestimentaRegion"><span data-i18n="inventario.region">Regi&oacute;n</span> <span class="required">*</span></label>
                                 <select class="form-select" id="vestimentaRegion" required>
-                                    <option value="">Seleccionar región...</option>
+                                    <option value="" data-i18n="inventario.seleccionar_region">Seleccionar regi&oacute;n...</option>
                                     <option value="Costa">Costa</option>
                                     <option value="Sierra">Sierra</option>
                                     <option value="Selva">Selva</option>
@@ -165,7 +181,7 @@
 
                         <!-- Tallas y stock -->
                         <div class="form-group">
-                            <label>Tallas y stock disponible</label>
+                            <label data-i18n="inventario.tallas_stock">Tallas y stock disponible</label>
                             <div class="tallas-editor" id="tallasEditor">
                                 <div class="talla-input-group">
                                     <label for="tallaXS">XS</label>
@@ -196,13 +212,13 @@
 
                         <!-- Upload de imagen -->
                         <div class="form-group">
-                            <label>Foto de la prenda</label>
+                            <label data-i18n="inventario.foto_prenda">Foto de la prenda</label>
                             <div class="image-upload-area" id="imageUploadArea">
                                 <div id="uploadPlaceholder">
                                     <div class="upload-icon"><i data-lucide="image-plus" style="width:36px;height:36px;color:var(--text-muted);"></i></div>
-                                    <p>Haga clic o arrastre una imagen aquí</p>
-                                    <p style="font-size: 0.75rem; margin-top: 4px; color: var(--text-muted);">
-                                        JPG, PNG o WebP — máx. 5MB
+                                    <p data-i18n="inventario.upload_text">Haga clic o arrastre una imagen aqu&iacute;</p>
+                                    <p style="font-size: 0.75rem; margin-top: 4px; color: var(--text-muted);" data-i18n="inventario.upload_hint">
+                                        JPG, PNG o WebP — m&aacute;x. 5MB
                                     </p>
                                 </div>
                                 <img src="" alt="Preview" class="preview-img" id="imagePreview" style="display: none;">
@@ -212,10 +228,11 @@
 
                         <div class="form-actions">
                             <button type="button" class="btn btn-secondary" id="btnCancelarVestimenta">
-                                Cancelar
+                                <span data-i18n="inventario.cancelar">Cancelar</span>
                             </button>
                             <button type="submit" class="btn btn-primary" id="btnGuardarVestimenta">
-                                <i data-lucide="save" style="width:16px;height:16px;"></i> Guardar vestimenta
+                                <i data-lucide="save" style="width:16px;height:16px;"></i>
+                                <span data-i18n="inventario.guardar">Guardar vestimenta</span>
                             </button>
                         </div>
                     </form>
@@ -224,10 +241,11 @@
                 <!-- Tabla de Inventario -->
                 <div class="table-container" id="tablaInventarioContainer" style="margin-top: var(--space-lg);">
                     <div class="table-header">
-                        <h3>Listado de vestimentas</h3>
+                        <h3 data-i18n="inventario.listado">Listado de vestimentas</h3>
                         <div class="search-bar-container" style="max-width: 300px; margin: 0;">
                             <span class="search-icon"><i data-lucide="search" style="width:16px;height:16px;"></i></span>
                             <input type="text" class="search-bar" id="searchInventario"
+                                   data-i18n-placeholder="inventario.buscar"
                                    placeholder="Buscar vestimenta..." style="padding: 10px 14px 10px 40px; font-size: 0.85rem;">
                         </div>
                     </div>
@@ -235,18 +253,18 @@
                         <table class="admin-table">
                             <thead>
                                 <tr>
-                                    <th>Imagen</th>
-                                    <th>Nombre</th>
-                                    <th>Región</th>
-                                    <th>Danza</th>
-                                    <th>Tallas / Stock</th>
-                                    <th>Estado</th>
-                                    <th>Acciones</th>
+                                    <th data-i18n="inventario.imagen">Imagen</th>
+                                    <th data-i18n="inventario.nombre">Nombre</th>
+                                    <th data-i18n="inventario.region_tab">Regi&oacute;n</th>
+                                    <th data-i18n="inventario.danza_tab">Danza</th>
+                                    <th data-i18n="inventario.tallas_stock_tab">Tallas / Stock</th>
+                                    <th data-i18n="inventario.estado_tab">Estado</th>
+                                    <th data-i18n="inventario.acciones">Acciones</th>
                                 </tr>
                             </thead>
                             <tbody id="inventarioTableBody">
                                 <tr>
-                                    <td colspan="7" style="text-align:center; color: var(--text-muted); padding: 40px;">
+                                    <td colspan="7" style="text-align:center; color: var(--text-muted); padding: 40px;" data-i18n="inventario.cargando">
                                         Cargando inventario...
                                     </td>
                                 </tr>
@@ -259,7 +277,7 @@
             <!-- ═══════════ PANEL: ALQUILAR ═══════════ -->
             <section class="admin-panel" id="panelAlquilar">
                 <div class="admin-topbar">
-                    <h1><i data-lucide="file-pen" style="width:24px;height:24px;"></i> Registrar Alquiler</h1>
+                    <h1><i data-lucide="file-pen" style="width:24px;height:24px;"></i> <span data-i18n="alquilar.title">Registrar Alquiler</span></h1>
                 </div>
 
                 <!-- Vista 1: Grid de vestimentas disponibles -->
@@ -267,10 +285,11 @@
                     <div class="search-bar-container" style="max-width: 500px; margin: 0 0 var(--space-xl) 0;">
                         <span class="search-icon"><i data-lucide="search" style="width:16px;height:16px;"></i></span>
                         <input type="text" class="search-bar" id="searchRentCatalog"
+                               data-i18n-placeholder="alquilar.buscar"
                                placeholder="Buscar vestimenta para alquilar..." style="padding: 10px 14px 10px 40px; font-size: 0.85rem;">
                     </div>
                     <div class="rent-catalog-grid" id="rentCatalogGrid">
-                        <div style="text-align:center; color: var(--text-muted); padding: 40px; grid-column: 1 / -1;">
+                        <div style="text-align:center; color: var(--text-muted); padding: 40px; grid-column: 1 / -1;" data-i18n="alquilar.cargando">
                             Cargando vestimentas disponibles...
                         </div>
                     </div>
@@ -279,64 +298,78 @@
                 <!-- Vista 2: Formulario de contrato (oculto) -->
                 <div id="rentFormView" style="display: none;">
                     <button class="btn btn-secondary" id="btnVolverCatalogo" style="margin-bottom: var(--space-xl);">
-                        <i data-lucide="arrow-left" style="width:16px;height:16px;"></i> Volver al cat&#225;logo
+                        <i data-lucide="arrow-left" style="width:16px;height:16px;"></i>
+                        <span data-i18n="alquilar.volver">Volver al cat&aacute;logo</span>
                     </button>
                     <div class="rent-selected-item" id="rentSelectedItem"></div>
                     <div class="admin-form" style="margin-top: var(--space-lg);">
-                        <h3 class="form-title">Datos del contrato de alquiler</h3>
+                        <h3 class="form-title" data-i18n="alquilar.datos_contrato">Datos del contrato de alquiler</h3>
                         <form id="formAlquiler">
                             <div class="form-row">
                                 <div class="form-group">
-                                    <label for="selectTalla">Talla <span class="required">*</span></label>
+                                    <label for="selectTalla"><span data-i18n="alquilar.talla">Talla</span> <span class="required">*</span></label>
                                     <select class="form-select" id="selectTalla" required>
-                                        <option value="">Seleccionar talla...</option>
+                                        <option value="" data-i18n="alquilar.seleccionar_talla">Seleccionar talla...</option>
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <label for="cantidad">Cantidad <span class="required">*</span></label>
+                                    <label for="cantidad"><span data-i18n="alquilar.cantidad">Cantidad</span> <span class="required">*</span></label>
                                     <input type="number" class="form-input" id="cantidad" min="1" value="1" required>
                                 </div>
                             </div>
-                            <h3 class="form-title" style="margin-top: var(--space-lg);">Datos del cliente</h3>
+                            <h3 class="form-title" style="margin-top: var(--space-lg);" data-i18n="alquilar.datos_cliente">Datos del cliente</h3>
                             <div class="form-row">
                                 <div class="form-group">
-                                    <label for="clienteNombres">Nombres <span class="required">*</span></label>
-                                    <input type="text" class="form-input" id="clienteNombres" placeholder="Ej: Juan Carlos" required>
+                                    <label for="clienteNombres"><span data-i18n="alquilar.nombres">Nombres</span> <span class="required">*</span></label>
+                                    <input type="text" class="form-input" id="clienteNombres"
+                                           data-i18n-placeholder="alquilar.placeholder_nombres"
+                                           placeholder="Ej: Juan Carlos" required>
                                 </div>
                                 <div class="form-group">
-                                    <label for="clienteApellidos">Apellidos <span class="required">*</span></label>
-                                    <input type="text" class="form-input" id="clienteApellidos" placeholder="Ej: P&#233;rez G&#243;mez" required>
+                                    <label for="clienteApellidos"><span data-i18n="alquilar.apellidos">Apellidos</span> <span class="required">*</span></label>
+                                    <input type="text" class="form-input" id="clienteApellidos"
+                                           data-i18n-placeholder="alquilar.placeholder_apellidos"
+                                           placeholder="Ej: P&eacute;rez G&oacute;mez" required>
                                 </div>
                             </div>
                             <div class="form-row">
                                 <div class="form-group">
-                                    <label for="clienteDni">DNI <span class="required">*</span></label>
-                                    <input type="text" class="form-input" id="clienteDni" placeholder="12345678" maxlength="8" pattern="[0-9]{8}" required>
+                                    <label for="clienteDni"><span data-i18n="alquilar.dni">DNI</span> <span class="required">*</span></label>
+                                    <input type="text" class="form-input" id="clienteDni"
+                                           data-i18n-placeholder="alquilar.placeholder_dni"
+                                           placeholder="12345678" maxlength="8" pattern="[0-9]{8}" required>
                                 </div>
                                 <div class="form-group">
-                                    <label for="clienteTelefono">Tel&#233;fono <span class="required">*</span></label>
-                                    <input type="tel" class="form-input" id="clienteTelefono" placeholder="987654321" required>
+                                    <label for="clienteTelefono"><span data-i18n="alquilar.telefono">Tel&eacute;fono</span> <span class="required">*</span></label>
+                                    <input type="tel" class="form-input" id="clienteTelefono"
+                                           data-i18n-placeholder="alquilar.placeholder_telefono"
+                                           placeholder="987654321" required>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="clienteDireccion">Direcci&#243;n</label>
-                                <input type="text" class="form-input" id="clienteDireccion" placeholder="Av. Las Flores 123, Lima">
+                                <label for="clienteDireccion"><span data-i18n="alquilar.direccion">Direcci&oacute;n</span></label>
+                                <input type="text" class="form-input" id="clienteDireccion"
+                                       data-i18n-placeholder="alquilar.placeholder_direccion"
+                                       placeholder="Av. Las Flores 123, Lima">
                             </div>
-                            <h3 class="form-title" style="margin-top: var(--space-lg);">Control de fechas</h3>
+                            <h3 class="form-title" style="margin-top: var(--space-lg);" data-i18n="alquilar.control_fechas">Control de fechas</h3>
                             <div class="form-row">
                                 <div class="form-group">
-                                    <label for="fechaInicio">Fecha de inicio <span class="required">*</span></label>
+                                    <label for="fechaInicio"><span data-i18n="alquilar.fecha_inicio">Fecha de inicio</span> <span class="required">*</span></label>
                                     <input type="date" class="form-input" id="fechaInicio" required>
                                 </div>
                                 <div class="form-group">
-                                    <label for="fechaDevolucion">Fecha de devoluci&#243;n <span class="required">*</span></label>
+                                    <label for="fechaDevolucion"><span data-i18n="alquilar.fecha_devolucion">Fecha de devoluci&oacute;n</span> <span class="required">*</span></label>
                                     <input type="date" class="form-input" id="fechaDevolucion" required>
                                 </div>
                             </div>
                             <div class="form-actions">
-                                <button type="button" class="btn btn-secondary" id="btnCancelarAlquiler">Cancelar</button>
+                                <button type="button" class="btn btn-secondary" id="btnCancelarAlquiler">
+                                    <span data-i18n="alquilar.cancelar_btn">Cancelar</span>
+                                </button>
                                 <button type="submit" class="btn btn-primary" id="btnRegistrarAlquiler">
-                                    <i data-lucide="check-circle" style="width:16px;height:16px;"></i> Registrar Alquiler
+                                    <i data-lucide="check-circle" style="width:16px;height:16px;"></i>
+                                    <span data-i18n="alquilar.registrar">Registrar Alquiler</span>
                                 </button>
                             </div>
                         </form>
@@ -347,39 +380,39 @@
             <!-- ═══════════ PANEL: HISTORIAL ═══════════ -->
             <section class="admin-panel" id="panelHistorial">
                 <div class="admin-topbar">
-                    <h1><i data-lucide="clipboard-list" style="width:24px;height:24px;"></i> Historial de Alquileres</h1>
+                    <h1><i data-lucide="clipboard-list" style="width:24px;height:24px;"></i> <span data-i18n="historial.title">Historial de Alquileres</span></h1>
                     <div class="topbar-actions">
                         <select class="form-select" id="filtroEstadoHistorial" style="width: auto; padding: 8px 36px 8px 14px; font-size: 0.85rem;">
-                            <option value="all">Todos</option>
-                            <option value="Alquilado">Alquilados</option>
-                            <option value="Devuelto">Devueltos</option>
-                            <option value="Cancelado">Cancelados</option>
+                            <option value="all" data-i18n="historial.todos">Todos</option>
+                            <option value="Alquilado" data-i18n="historial.alquilados">Alquilados</option>
+                            <option value="Devuelto" data-i18n="historial.devueltos">Devueltos</option>
+                            <option value="Cancelado" data-i18n="historial.cancelados">Cancelados</option>
                         </select>
                     </div>
                 </div>
 
                 <div class="table-container">
                     <div class="table-header">
-                        <h3>Contratos registrados</h3>
+                        <h3 data-i18n="historial.contratos">Contratos registrados</h3>
                     </div>
                     <div class="table-wrapper">
                         <table class="admin-table">
                             <thead>
                                 <tr>
-                                    <th>Cliente</th>
-                                    <th>DNI</th>
-                                    <th>Vestimenta</th>
-                                    <th>Talla</th>
-                                    <th>Cant.</th>
-                                    <th>Inicio</th>
-                                    <th>Devolución</th>
-                                    <th>Estado</th>
-                                    <th>Acciones</th>
+                                    <th data-i18n="historial.cliente">Cliente</th>
+                                    <th data-i18n="historial.dni">DNI</th>
+                                    <th data-i18n="historial.vestimenta">Vestimenta</th>
+                                    <th data-i18n="historial.talla">Talla</th>
+                                    <th data-i18n="historial.cant">Cant.</th>
+                                    <th data-i18n="historial.inicio">Inicio</th>
+                                    <th data-i18n="historial.devolucion">Devoluci&oacute;n</th>
+                                    <th data-i18n="historial.estado">Estado</th>
+                                    <th data-i18n="historial.acciones">Acciones</th>
                                 </tr>
                             </thead>
                             <tbody id="historialTableBody">
                                 <tr>
-                                    <td colspan="9" style="text-align:center; color: var(--text-muted); padding: 40px;">
+                                    <td colspan="9" style="text-align:center; color: var(--text-muted); padding: 40px;" data-i18n="historial.cargando">
                                         Cargando historial...
                                     </td>
                                 </tr>
@@ -396,46 +429,49 @@
     <div class="confirm-overlay" id="confirmOverlay">
         <div class="confirm-dialog">
             <div class="confirm-icon" id="confirmIcon"><i data-lucide="alert-triangle" style="width:40px;height:40px;color:var(--color-accent);"></i></div>
-            <h3 id="confirmTitle">¿Está seguro?</h3>
-            <p id="confirmMessage">Esta acción no se puede deshacer.</p>
+            <h3 id="confirmTitle" data-i18n="confirm.seguro">&iquest;Est&aacute; seguro?</h3>
+            <p id="confirmMessage" data-i18n="confirm.no_deshacer">Esta acci&oacute;n no se puede deshacer.</p>
             <div class="confirm-actions">
-                <button class="btn btn-secondary" id="confirmCancel">Cancelar</button>
-                <button class="btn btn-primary" id="confirmAccept">Confirmar</button>
+                <button class="btn btn-secondary" id="confirmCancel"><span data-i18n="confirm.cancelar">Cancelar</span></button>
+                <button class="btn btn-primary" id="confirmAccept"><span data-i18n="confirm.confirmar">Confirmar</span></button>
             </div>
         </div>
     </div>
 
     <!-- Toast container -->
-    <div class="toast-container" id="toastContainer"></div>
+    <div class="toast-container" id="toastContainer" aria-live="polite"></div>
 
     <!-- Mobile sidebar toggle -->
     <button class="sidebar-mobile-toggle" id="sidebarToggle"><i data-lucide="menu" style="width:24px;height:24px;color:#fff;"></i></button>
 
     <!-- Scripts -->
     <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+    <script type="module" src="js/i18n.js"></script>
     <script type="module" src="js/auth.js"></script>
     <script type="module" src="js/admin-inventory.js"></script>
     <script type="module" src="js/admin-rent.js"></script>
     <script type="module" src="js/admin-history.js"></script>
     <script type="module" src="js/admin-dashboard.js"></script>
 
-    <!-- Script de navegación del sidebar (inline para simplicidad) -->
-    <script>
+    <!-- Script de utilidades del panel (navegación, i18n init, atajos, temas) -->
+    <script type="module">
+        import { initI18n, setLanguage, getLanguage, t } from './js/i18n.js';
+
+        // ── Inicializar i18n ──
+        initI18n();
+
         // ── Navegación entre paneles ──
         document.querySelectorAll('.sidebar-link[data-panel]').forEach(link => {
             link.addEventListener('click', () => {
                 const panelId = link.dataset.panel;
 
-                // Activar link
                 document.querySelectorAll('.sidebar-link').forEach(l => l.classList.remove('active'));
                 link.classList.add('active');
 
-                // Mostrar panel
                 document.querySelectorAll('.admin-panel').forEach(p => p.classList.remove('active'));
                 const panel = document.getElementById('panel' + panelId.charAt(0).toUpperCase() + panelId.slice(1));
                 if (panel) panel.classList.add('active');
 
-                // Cerrar sidebar en mobile
                 document.getElementById('sidebar').classList.remove('open');
             });
         });
@@ -445,7 +481,6 @@
             document.getElementById('sidebar').classList.toggle('open');
         });
 
-        // Cerrar sidebar al hacer clic fuera en mobile
         document.addEventListener('click', (e) => {
             const sidebar = document.getElementById('sidebar');
             const toggle = document.getElementById('sidebarToggle');
@@ -454,6 +489,58 @@
                 sidebar.classList.remove('open');
             }
         });
+
+        // ── Atajos de teclado: Ctrl+1..4 para paneles ──
+        document.addEventListener('keydown', (e) => {
+            if (e.ctrlKey && !e.shiftKey && !e.altKey && !e.metaKey && ['1','2','3','4'].includes(e.key)) {
+                e.preventDefault();
+                const map = ['dashboard', 'inventario', 'alquilar', 'historial'];
+                const btn = document.querySelector(`[data-panel="${map[+e.key - 1]}"]`);
+                if (btn) btn.click();
+            }
+        });
+
+        // ── Cambio de idioma ──
+        const langBtn = document.getElementById('btnLangToggle');
+        const langLabel = document.getElementById('langLabel');
+        function updateLangLabel() {
+            langLabel.textContent = getLanguage() === 'en' ? 'EN' : 'ES';
+        }
+        langBtn.addEventListener('click', () => {
+            const next = getLanguage() === 'es' ? 'en' : 'es';
+            setLanguage(next);
+            updateLangLabel();
+        });
+        updateLangLabel();
+
+        // ── Dark Mode ──
+        const themeBtn = document.getElementById('btnThemeToggle');
+        const themeIcon = document.getElementById('themeIcon');
+        const THEME_STORAGE = 'admin_theme';
+
+        function getTheme() {
+            return localStorage.getItem(THEME_STORAGE) || 'light';
+        }
+
+        function setTheme(theme) {
+            localStorage.setItem(THEME_STORAGE, theme);
+            if (theme === 'dark') {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                themeIcon.innerHTML = '<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>';
+                themeBtn.title = window.lang === 'en' ? 'Light mode' : 'Modo claro';
+            } else {
+                document.documentElement.removeAttribute('data-theme');
+                themeIcon.innerHTML = '<circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>';
+                themeBtn.title = window.lang === 'en' ? 'Dark mode' : 'Modo oscuro';
+            }
+        }
+
+        themeBtn.addEventListener('click', () => {
+            setTheme(getTheme() === 'dark' ? 'light' : 'dark');
+        });
+
+        // Inicializar tema
+        setTheme(getTheme());
 
         // ── Inicializar iconos Lucide ──
         document.addEventListener('DOMContentLoaded', () => lucide.createIcons());

@@ -5,6 +5,7 @@
 // =====================================================
 
 import { db } from './firebase-config.js';
+import { t } from './i18n.js';
 import {
     collection, getDocs, addDoc, doc, updateDoc, deleteDoc,
     query, orderBy, serverTimestamp
@@ -59,7 +60,7 @@ export async function cargarInventario() {
         // Datos demo si Firebase no está configurado
         vestimentasList = getDatosDemo();
         renderTablaInventario(vestimentasList);
-        showToast('Modo demo — Configure Firebase para datos reales');
+        showToast(t('inventario.demo'));
     }
 }
 
@@ -68,7 +69,7 @@ function renderTablaInventario(lista) {
         tableBody.innerHTML = `
             <tr>
                 <td colspan="7" style="text-align:center; color: var(--text-muted); padding: 40px;">
-                    No hay vestimentas registradas. Haga clic en "Nueva vestimenta" para agregar.
+                    ${t('inventario.no_hay')}
                 </td>
             </tr>`;
         return;
@@ -79,7 +80,7 @@ function renderTablaInventario(lista) {
         const tallasStr = Object.entries(v.tallas || {})
             .filter(([, cant]) => cant > 0)
             .map(([talla, cant]) => `<span class="talla-chip available" style="font-size:0.7rem;padding:2px 6px;">${talla}:${cant}</span>`)
-            .join('') || '<span style="color:var(--text-muted);font-size:0.8rem;">Sin stock</span>';
+            .join('') || `<span style="color:var(--text-muted);font-size:0.8rem;">${t('inventario.sin_stock')}</span>`;
 
         return `
             <tr>
@@ -95,13 +96,13 @@ function renderTablaInventario(lista) {
                 <td><div style="display:flex;gap:4px;flex-wrap:wrap;">${tallasStr}</div></td>
                 <td>
                     <span class="status-badge ${v.activo !== false ? 'devuelto' : 'cancelado'}">
-                        ${v.activo !== false ? 'Activo' : 'Inactivo'}
+                        ${v.activo !== false ? t('inventario.activo') : t('inventario.inactivo')}
                     </span>
                 </td>
                 <td>
                     <div style="display:flex;gap:4px;">
-                        <button class="btn btn-secondary btn-sm btn-editar" data-id="${v.id}" title="Editar">✏️</button>
-                        <button class="btn btn-secondary btn-sm btn-eliminar" data-id="${v.id}" data-nombre="${v.nombre}" title="Eliminar" 
+                        <button class="btn btn-secondary btn-sm btn-editar" data-id="${v.id}" title="${t('inventario.editar')}">✏️</button>
+                        <button class="btn btn-secondary btn-sm btn-eliminar" data-id="${v.id}" data-nombre="${v.nombre}" title="${t('inventario.eliminar')}" 
                                 style="border-color:rgba(239,68,68,0.2);">🗑️</button>
                     </div>
                 </td>
@@ -126,7 +127,7 @@ function initFormEvents() {
     // Botón "Nueva vestimenta"
     btnNueva.addEventListener('click', () => {
         editandoId = null;
-        formTitle.textContent = '➕ Nueva Vestimenta';
+        formTitle.textContent = '➕ ' + t('inventario.title_nuevo');
         formVestimenta.reset();
         resetImagePreview();
         TALLAS.forEach(t => {
@@ -148,7 +149,7 @@ function initFormEvents() {
         const file = e.target.files[0];
         if (file) {
             if (file.size > 5 * 1024 * 1024) {
-                showToast('La imagen no debe superar 5MB');
+                showToast(t('inventario.imagen_grande'));
                 imageInput.value = '';
                 return;
             }
@@ -169,7 +170,7 @@ function initFormEvents() {
 
         const btnGuardar = document.getElementById('btnGuardarVestimenta');
         btnGuardar.disabled = true;
-        btnGuardar.innerHTML = '⏳ Guardando...';
+        btnGuardar.innerHTML = `⏳ ${t('inventario.guardando')}`;
 
         try {
             // Recoger tallas
@@ -201,12 +202,12 @@ function initFormEvents() {
             if (editandoId) {
                 // ACTUALIZAR
                 await updateDoc(doc(db, 'vestimentas', editandoId), datos);
-                showToast('✅ Vestimenta actualizada correctamente');
+                showToast('✅ ' + t('inventario.actualizada'));
             } else {
                 // CREAR
                 datos.fecha_registro = serverTimestamp();
                 await addDoc(collection(db, 'vestimentas'), datos);
-                showToast('✅ Vestimenta registrada correctamente');
+                showToast('✅ ' + t('inventario.registrada'));
             }
 
             formContainer.style.display = 'none';
@@ -216,10 +217,10 @@ function initFormEvents() {
 
         } catch (error) {
             console.error('Error al guardar:', error);
-            showToast('❌ Error al guardar. Revise la consola.');
+                showToast('❌ ' + t('inventario.error_guardar'));
         } finally {
             btnGuardar.disabled = false;
-            btnGuardar.innerHTML = '💾 Guardar vestimenta';
+            btnGuardar.innerHTML = `💾 ${t('inventario.guardar')}`;
         }
     });
 }
@@ -230,7 +231,7 @@ function editarVestimenta(id) {
     if (!vestimenta) return;
 
     editandoId = id;
-    formTitle.textContent = '✏️ Editar Vestimenta';
+    formTitle.textContent = '✏️ ' + t('inventario.title_editar');
 
     document.getElementById('vestimentaNombre').value = vestimenta.nombre || '';
     document.getElementById('vestimentaDanza').value = vestimenta.danza || '';
@@ -261,16 +262,16 @@ function editarVestimenta(id) {
 function confirmarEliminar(id, nombre) {
     showConfirmDialog(
         '🗑️',
-        '¿Eliminar vestimenta?',
-        `Se eliminará "${nombre}" del inventario. Esta acción no se puede deshacer.`,
+        t('inventario.eliminar_confirmar'),
+        t('inventario.eliminar_mensaje', { nombre }),
         async () => {
             try {
                 await deleteDoc(doc(db, 'vestimentas', id));
-                showToast('🗑️ Vestimenta eliminada');
+                showToast('🗑️ ' + t('inventario.eliminada'));
                 await cargarInventario();
             } catch (error) {
                 console.error('Error al eliminar:', error);
-                showToast('❌ Error al eliminar');
+                showToast('❌ ' + t('inventario.error_eliminar'));
             }
         }
     );
@@ -413,6 +414,15 @@ function getDatosDemo() {
         { id: 'demo5', nombre: 'Traje de Buri Buriti', region: 'Selva', danza: 'Buri Buriti', imagenUrl: '', tallas: { S: 3, M: 2, L: 1 }, activo: true },
     ];
 }
+
+// Re-render al cambiar idioma
+window.addEventListener('languageChanged', () => {
+    renderTablaInventario(vestimentasList);
+    const title = document.getElementById('formVestimentaTitle');
+    if (title && formContainer.style.display !== 'none') {
+        title.textContent = editandoId ? ('✏️ ' + t('inventario.title_editar')) : ('➕ ' + t('inventario.title_nuevo'));
+    }
+});
 
 // Exportar para que otros módulos puedan usarlo
 export { vestimentasList, showToast, showConfirmDialog };
