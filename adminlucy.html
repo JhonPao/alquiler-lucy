@@ -49,17 +49,32 @@
                     <span class="link-icon"><i data-lucide="clipboard-list" style="width:18px;height:18px;"></i></span>
                     <span data-i18n="sidebar.historial">Historial</span>
                 </button>
+
+                <div class="sidebar-section-label" data-i18n="opciones.title">Opciones</div>
+
+                <div class="sidebar-opciones">
+                    <div class="opcion-row">
+                        <span class="opcion-label" data-i18n="opciones.idioma">Idioma</span>
+                        <button class="opcion-btn" id="btnLangToggle" data-i18n-attr="aria-label" data-i18n="lang.label" aria-label="Cambiar idioma">
+                            <span id="langLabel">ES</span>
+                        </button>
+                    </div>
+                    <div class="opcion-row">
+                        <span class="opcion-label" data-i18n="opciones.tema">Tema</span>
+                        <button class="opcion-btn" id="btnThemeToggle" title="Modo oscuro" aria-label="Cambiar tema">
+                            <svg id="themeIcon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+                        </button>
+                    </div>
+                    <div class="opcion-row">
+                        <span class="opcion-label" data-i18n="opciones.daltonismo">Daltonismo</span>
+                        <button class="opcion-btn" id="btnDaltonismToggle" title="Normal" aria-label="Modo daltonismo">
+                            <span id="daltonismLabel">N</span>
+                        </button>
+                    </div>
+                </div>
             </nav>
 
             <div class="sidebar-footer">
-                <div class="sidebar-toggles">
-                    <button class="sidebar-toggle-btn" id="btnLangToggle" title="Cambiar idioma" aria-label="Cambiar idioma">
-                        <span id="langLabel">ES</span>
-                    </button>
-                    <button class="sidebar-toggle-btn" id="btnThemeToggle" title="Modo oscuro" aria-label="Cambiar tema">
-                        <svg id="themeIcon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
-                    </button>
-                </div>
                 <div class="sidebar-user">
                     <div class="user-avatar"><i data-lucide="user" style="width:18px;height:18px;color:#fff;"></i></div>
                     <div class="user-info">
@@ -542,9 +557,76 @@
         // Inicializar tema
         setTheme(getTheme());
 
+        // ── Daltonism ──
+        const daltonismBtn = document.getElementById('btnDaltonismToggle');
+        const daltonismLabel = document.getElementById('daltonismLabel');
+        const DALTONISM_STORAGE = 'admin_daltonism';
+        const DALTONISM_MODES = ['off', 'protanopia', 'deuteranopia', 'tritanopia'];
+        const DALTONISM_SHORT = { off: 'N', protanopia: 'P', deuteranopia: 'D', tritanopia: 'T' };
+
+        function getDaltonism() {
+            return localStorage.getItem(DALTONISM_STORAGE) || 'off';
+        }
+
+        function setDaltonism(mode) {
+            localStorage.setItem(DALTONISM_STORAGE, mode);
+            const html = document.documentElement;
+            if (mode === 'off') {
+                html.removeAttribute('data-daltonism');
+            } else {
+                html.setAttribute('data-daltonism', mode);
+            }
+            daltonismLabel.textContent = DALTONISM_SHORT[mode];
+            const key = 'daltonism.' + mode;
+            daltonismBtn.title = window.t ? window.t(key) : key;
+        }
+
+        daltonismBtn.addEventListener('click', () => {
+            const current = getDaltonism();
+            const idx = DALTONISM_MODES.indexOf(current);
+            const next = DALTONISM_MODES[(idx + 1) % DALTONISM_MODES.length];
+            setDaltonism(next);
+        });
+
+        setDaltonism(getDaltonism());
+
+        window.addEventListener('languageChanged', () => {
+            const key = 'daltonism.' + getDaltonism();
+            daltonismBtn.title = window.t ? window.t(key) : key;
+        });
+
         // ── Inicializar iconos Lucide ──
         document.addEventListener('DOMContentLoaded', () => lucide.createIcons());
     </script>
+
+    <svg xmlns="http://www.w3.org/2000/svg" style="display:none">
+        <defs>
+            <filter id="protanopia">
+                <feColorMatrix type="matrix" values="
+                    0.567, 0.433, 0,     0, 0
+                    0.558, 0.442, 0,     0, 0
+                    0,     0.242, 0.758, 0, 0
+                    0,     0,     0,     1, 0
+                "/>
+            </filter>
+            <filter id="deuteranopia">
+                <feColorMatrix type="matrix" values="
+                    0.625, 0.375, 0,   0, 0
+                    0.7,   0.3,   0,   0, 0
+                    0,     0.3,   0.7, 0, 0
+                    0,     0,     0,   1, 0
+                "/>
+            </filter>
+            <filter id="tritanopia">
+                <feColorMatrix type="matrix" values="
+                    0.95, 0.05,  0,     0, 0
+                    0,    0.433, 0.567, 0, 0
+                    0,    0.475, 0.525, 0, 0
+                    0,    0,     0,     1, 0
+                "/>
+            </filter>
+        </defs>
+    </svg>
 
 </body>
 </html>

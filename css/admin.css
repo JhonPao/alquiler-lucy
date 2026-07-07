@@ -896,89 +896,71 @@
     }
 }
 
-@media (max-width: 600px) {
-    .stats-grid {
-        grid-template-columns: 1fr 1fr;
-        gap: var(--space-md);
-    }
-
-    .stat-card {
-        padding: var(--space-lg);
-    }
-
-    .stat-card .stat-value {
-        font-size: 1.5rem;
-    }
-
-    .admin-topbar h1 {
-        font-size: 1.3rem;
-    }
-
-    .table-header {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-}
-
-/* ── SIDEBAR TOGGLE BUTTONS (idioma / tema) ── */
-.sidebar-toggles {
+/* ── SIDEBAR OPCIONES (idioma / tema / daltonismo) ── */
+.sidebar-opciones {
     display: flex;
-    gap: 4px;
-    margin-bottom: var(--space-sm);
+    flex-direction: column;
+    gap: 2px;
+    padding: 0 var(--space-md) var(--space-md);
 }
 
-.sidebar-toggle-btn {
-    flex: 1;
+.opcion-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px var(--space-sm);
+    border-radius: var(--radius-sm);
+    transition: var(--transition-fast);
+}
+
+.opcion-row:hover {
+    background: rgba(255, 255, 255, 0.03);
+}
+
+.opcion-label {
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.5);
+    font-weight: 500;
+}
+
+.opcion-btn {
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 4px;
-    padding: 6px 8px;
-    background: var(--bg-body);
-    border: 1px solid var(--border-subtle);
+    padding: 4px 10px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: var(--radius-sm);
-    color: var(--text-muted);
+    color: rgba(255, 255, 255, 0.7);
     cursor: pointer;
     transition: var(--transition-fast);
     font-family: var(--font-body);
-    font-size: 0.75rem;
+    font-size: 0.72rem;
     font-weight: 600;
+    min-width: 32px;
+    text-align: center;
 }
 
-.sidebar-toggle-btn:hover {
-    border-color: var(--border-card);
-    color: var(--text-primary);
-    background: var(--bg-card-hover);
+.opcion-btn:hover {
+    border-color: rgba(255, 255, 255, 0.15);
+    color: #fff;
+    background: rgba(255, 255, 255, 0.1);
 }
 
-.sidebar-toggle-btn svg {
+.opcion-btn svg {
     flex-shrink: 0;
 }
 
-/* ── DARK MODE ── */
-[data-theme="dark"] {
-    --bg-body: #12121A;
-    --bg-card: #1A1A2E;
-    --bg-card-hover: #24243E;
-    --bg-glass: rgba(219, 133, 23, 0.08);
-    --bg-surface: #16162A;
-    --bg-surface-2: #1E1E36;
-
-    --text-primary: #E4E4EC;
-    --text-secondary: #B0B0C0;
-    --text-muted: #7A7A8A;
-
-    --border-subtle: rgba(255, 255, 255, 0.07);
-    --border-card: rgba(219, 133, 23, 0.25);
-    --border-glow: rgba(219, 133, 23, 0.4);
-
-    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
-    --shadow-md: 0 6px 24px rgba(0, 0, 0, 0.4);
-    --shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.5);
-    --shadow-glow: 0 0 30px rgba(219, 133, 23, 0.12);
-
-    --gradient-hero: linear-gradient(135deg, #12121A 0%, #1A1A2E 50%, #12121A 100%);
-    --gradient-card: linear-gradient(145deg, #1A1A2E, #1E1E36);
+/* ── DALTONISM FILTERS ── */
+html[data-daltonism="protanopia"] {
+    filter: url(#protanopia);
+}
+html[data-daltonism="deuteranopia"] {
+    filter: url(#deuteranopia);
+}
+html[data-daltonism="tritanopia"] {
+    filter: url(#tritanopia);
 }
 
 /* ── REDUCED MOTION ── */

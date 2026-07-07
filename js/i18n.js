@@ -168,6 +168,12 @@ const translations = {
     'auth.error_inesperado': 'Error inesperado. Intente de nuevo.',
     'auth.error_cerrar': 'Error al cerrar sesión. Intente de nuevo.',
 
+    /* ─── Sidebar Opciones ─── */
+    'opciones.title': 'Opciones',
+    'opciones.idioma': 'Idioma',
+    'opciones.tema': 'Tema',
+    'opciones.daltonismo': 'Modo daltonismo',
+
     /* ─── Language toggle ─── */
     'lang.es': 'ES',
     'lang.en': 'EN',
@@ -176,6 +182,13 @@ const translations = {
     /* ─── Theme toggle ─── */
     'theme.light': 'Modo claro',
     'theme.dark': 'Modo oscuro',
+
+    /* ─── Daltonism ─── */
+    'daltonism.off': 'Normal',
+    'daltonism.protanopia': 'Protanopia (rojo-verde)',
+    'daltonism.deuteranopia': 'Deuteranopia (verde-rojo)',
+    'daltonism.tritanopia': 'Tritanopia (azul-amarillo)',
+    'daltonism.label': 'Daltonismo',
   },
 
   en: {
@@ -345,6 +358,12 @@ const translations = {
     'auth.error_inesperado': 'Unexpected error. Try again.',
     'auth.error_cerrar': 'Error logging out. Try again.',
 
+    /* ─── Sidebar Opciones ─── */
+    'opciones.title': 'Options',
+    'opciones.idioma': 'Language',
+    'opciones.tema': 'Theme',
+    'opciones.daltonismo': 'Color blindness',
+
     /* ─── Language toggle ─── */
     'lang.es': 'ES',
     'lang.en': 'EN',
@@ -353,6 +372,13 @@ const translations = {
     /* ─── Theme toggle ─── */
     'theme.light': 'Light mode',
     'theme.dark': 'Dark mode',
+
+    /* ─── Daltonism ─── */
+    'daltonism.off': 'Normal',
+    'daltonism.protanopia': 'Protanopia (red-green)',
+    'daltonism.deuteranopia': 'Deuteranopia (green-red)',
+    'daltonism.tritanopia': 'Tritanopia (blue-yellow)',
+    'daltonism.label': 'Color blindness',
   }
 };
 
